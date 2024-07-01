@@ -141,7 +141,7 @@
     <div class="content pt-5">
         <div class="container pt-5">
             <div class="row pt-5">
-                <div class="col">
+                <div class="col text-center">
                     <h1>Đăng tin tuyển dụng,<br> tìm kiếm ứng viên hiệu quả</h1>
                 </div>
             </div>
