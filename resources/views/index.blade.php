@@ -137,7 +137,7 @@
                                 </a>
                             </li>
                             <li class="nav-item ps-2">
-                                <a class="nav-link login-btn btn" href="#">Đăng nhập</a>
+                                <a class="nav-link login-btn btn" href="{{ url('/login') }}">Đăng nhập</a>
                             </li>
                         </ul>
                     </ul>
