@@ -100,13 +100,14 @@
                 <div class="row">
                     <div class="col-12 col-md-4">
                         <div class="dropdown d-flex pb-3">
-                            <p class="pt-2 pe-2">Lọc theo: </p><button class="btn btn-light dropdown-toggle" type="button"
-                                data-toggle="dropdown">Địa điểm
-                                <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Mức lương</a></li>
-                                <li><a href="#">Kinh nghiệm</a></li>
-                                <li><a href="#">Ngành nghề</a></li>
+                           
+                            <p class="pt-2 pe-2">Lọc theo: </p> <a id="navbarDropdown" class="btn btn-light dropdown-toggle" href="#"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">Địa điểm
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li><a  class="dropdown-item" href="#">Mức lương</a></li>
+                                <li><a  class="dropdown-item" href="#">Kinh nghiệm</a></li>
+                                <li><a  class="dropdown-item" href="#">Ngành nghề</a></li>
                             </ul>
                         </div>
                     </div>

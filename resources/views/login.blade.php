@@ -47,14 +47,25 @@
             <div class="col-12 col-md-8 welcome">
                 <h1 class="bg-text">Chào mừng bạn đã quay trở lại</h1>
                 <p>Cùng xây dựng một hồ sơ nổi bật và nhận được các cơ hội sự nghiệp lý tưởng</p>
-                <form class="py-2">
+                <form class="py-2" method="POST" action="{{ route('login') }}">
+                    @csrf
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Nhập email của bạn">
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" placeholder="Nhập email của bạn" required>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Mật khẩu</label>
-                        <input type="password" class="form-control" id="password" placeholder="Nhập mật khẩu của bạn">
+                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Nhập mật khẩu của bạn" required>
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="d-flex justify-content-end mb-3 py-3">
                         <a href="#" class="text-decoration-none bg-text">Quên mật khẩu?</a>
@@ -81,8 +92,7 @@
                         </div>
                     </div>
                     <div class="my-3 text-center">
-                        <p>Bạn chưa có tài khoản? <a href="{{url('/register')}}" class="text-decoration-none bg-text">Đăng ký
-                                ngay</a></p>
+                        <p>Bạn chưa có tài khoản? <a href="{{ url('/register') }}" class="text-decoration-none bg-text">Đăng ký ngay</a></p>
                     </div>
                     <hr>
                     <p class="my-3 text-center"><strong> Bạn gặp khó khăn khi tạo tài khoản?</strong></p>
@@ -91,7 +101,7 @@
                         <p class="bg-text px-1"> (024) 6680 5588 </p>
                         <p> (giờ hành chính).</p>
                     </div>
-                </form>
+                </form>                
                 <div class="pt-5">
                     <div class="container">
                         <div class="row">

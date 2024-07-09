@@ -48,9 +48,8 @@
                             <div class="col">
                                 <div class="ps-3 d-flex pt-2">
                                     <h2>CV đã tải trên Vieclamso1</h2>
-                                    <a 
-                                        class="rounded-pill px-3 py-2 ms-auto text-decoration-none text-light btn-content"
-                                        href="{{url('/uploadcv')}}"><i class="fa-solid fa-upload px-2"></i>Tải CV lên</a>
+                                    <a class="rounded-pill px-3 py-2 ms-auto text-decoration-none text-light btn-content"
+                                        href="{{ url('/uploadcv') }}"><i class="fa-solid fa-upload px-2"></i>Tải CV lên</a>
                                 </div>
                                 <div class="text-center">
                                     <img class="img-fluid w-25" src="{{ asset('images/upload.png') }}" alt="#">
@@ -375,11 +374,20 @@
                 <div class="col-12 col-md-4 py-4">
                     <div class="rounded bg-light">
                         <div class="pt-3 d-flex">
-                            <a class="py-3 w-25" href=""><img class="img-fluid"
-                                    src="{{ asset('images/account.png') }}" alt="#"></a>
+                            @if (auth()->user()->profile_picture)
+                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="py-3 w-25"
+                                    href=""><img class="img-thumbnail rounded-pill"
+                                        src="{{ asset('images/profile-picture/' . auth()->user()->profile_picture) }}"
+                                        alt="user-avatar"></a>
+                            @else
+                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="py-3 w-25"
+                                    href=""><img class="img-thumbnail rounded-pill"
+                                        src="{{ asset('images/profile-picture/user-default.jpg') }}"
+                                        alt="user-default"></a>
+                            @endif
                             <div class="ps-4">
                                 <p>Chào bạn trở lại,</p>
-                                <h5>Nguyễn A</h5>
+                                <h5>{{ auth()->user()->fullname ?? auth()->user()->email }}</h5>
                                 <p class="p-2 rounded content bg-content">Tài khoản đã xác thực</p>
                                 <a class="p-2 rounded-pill content bg-content text-decoration-none text-dark"
                                     href=""><i class="px-1 fa-solid fa-arrow-up"></i> Nâng cấp tài khoản</a>
@@ -478,4 +486,61 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form method="POST" action="{{ route('profile.picture.update') }}" enctype="multipart/form-data"
+                    id="uploadForm">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa ảnh đại diện</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body row">
+                        <!-- Bên trái: Phần upload ảnh mới -->
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="profilePicture" class="form-label">Chọn ảnh mới</label>
+                                <input type="file" class="form-control" id="profilePicture" name="profile_picture"
+                                    onchange="displayImage(event)">
+                                <small id="fileHelp" class="form-text text-muted">
+                                    Nếu ảnh của bạn có dung lượng trên 4MB, vui lòng <a href="https://compressor.io/">bấm
+                                        vào đây</a> để giảm dung lượng ảnh.
+                                </small>
+                                @error('profile_picture')
+                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <!-- Bên phải: Hiển thị ảnh profile_picture -->
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="previewImage" class="form-label">Ảnh đại diện hiển thị</label>
+                                <div id="imagePreview" class="text-center">
+                                    <img id="previewImage"
+                                        src="{{ asset('images/profile-picture/' . Auth::user()->profile_picture) }}"
+                                        alt="Current Profile Picture" class="img-thumbnail rounded-circle">
+                                </div>
+                                <p>Tải ảnh có định dạng <strong> 1024 x 1024 </strong>sẽ đẹp nhất</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function displayImage(event) {
+            var image = document.getElementById('previewImage');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        }
+    </script>
 @endsection

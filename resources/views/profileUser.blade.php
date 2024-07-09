@@ -7,31 +7,73 @@
                     <div class="bg-light rounded py-5 ps-3">
                         <h3>Cài đặt thông tin cá nhân</h3>
                         <p>(*) Các thông tin bắt buộc</p>
-                        <form class="me-3">
+                        <form class="me-3" method="POST" action="{{ route('profile.update') }}">
+                            @csrf
                             <div class="mb-3">
                                 <label class="form-label">Họ và tên *</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="fullname"
+                                    value="{{ old('fullname', auth()->user()->fullname ?? '') }}">
                             </div>
                             <div class="mb-3">
-                                <label  class="form-label">Số điện thoại *</label>
-                                <input type="number" class="form-control">
+                                <label class="form-label">Số điện thoại</label>
+                                <input type="text" class="form-control" name="phone"
+                                    value="{{ old('phone', auth()->user()->phone ?? '') }}">
+                                @error('phone')
+                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-3">
-                                <label  class="form-label">Email *</label>
-                                <input type="email" class="form-control" readonly>
+                                <label class="form-label">Email *</label>
+                                <input type="email" class="form-control" name="email"
+                                    value="{{ old('email', auth()->user()->email ?? '') }}">
+                                @error('email')
+                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                @enderror
                             </div>
-                            <button style="background-color: rgb(46, 232, 0);" type="submit" class="btn text-light py-2 px-4">Lưu</button>
+                            <button style="background-color: rgb(46, 232, 0);" type="submit"
+                                class="btn text-light py-2 px-4">Lưu</button>
                         </form>
+
+                        @if (session('success'))
+                            <div class="alert alert-success mt-3">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        @if (session('error'))
+                            <div class="alert alert-danger mt-3">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger mt-3">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="col-12 col-md-4 py-4">
                     <div class="rounded bg-light">
                         <div class="pt-3 d-flex">
-                            <a class="py-3 w-25" href=""><img class="img-fluid"
-                                    src="{{ asset('images/account.png') }}" alt="#"></a>
+                            @if (auth()->user()->profile_picture)
+                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="py-3 w-25"
+                                    href=""><img class="img-thumbnail rounded-pill"
+                                        src="{{ asset('images/profile-picture/' . auth()->user()->profile_picture) }}"
+                                        alt="user-avatar"></a>
+                            @else
+                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="py-3 w-25"
+                                    href=""><img class="img-thumbnail rounded-pill"
+                                        src="{{ asset('images/profile-picture/user-default.jpg') }}"
+                                        alt="user-default"></a>
+                            @endif
                             <div class="ps-4">
                                 <p>Chào bạn trở lại,</p>
-                                <h5>Nguyễn A</h5>
+                                <h5>{{ auth()->user()->fullname ?? auth()->user()->email }}</h5>
                                 <p class="p-2 rounded content bg-content">Tài khoản đã xác thực</p>
                                 <a class="p-2 rounded-pill content bg-content text-decoration-none text-dark"
                                     href=""><i class="px-1 fa-solid fa-arrow-up"></i> Nâng cấp tài khoản</a>
@@ -130,10 +172,61 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form method="POST" action="{{ route('profile.picture.update') }}" enctype="multipart/form-data"
+                    id="uploadForm">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa ảnh đại diện</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body row">
+                        <!-- Bên trái: Phần upload ảnh mới -->
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="profilePicture" class="form-label">Chọn ảnh mới</label>
+                                <input type="file" class="form-control" id="profilePicture" name="profile_picture"
+                                    onchange="displayImage(event)">
+                                <small id="fileHelp" class="form-text text-muted">
+                                    Nếu ảnh của bạn có dung lượng trên 4MB, vui lòng <a href="https://compressor.io/">bấm
+                                        vào đây</a> để giảm dung lượng ảnh.
+                                </small>
+                                @error('profile_picture')
+                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <!-- Bên phải: Hiển thị ảnh profile_picture -->
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label for="previewImage" class="form-label">Ảnh đại diện hiển thị</label>
+                                <div id="imagePreview" class="text-center">
+                                    <img id="previewImage"
+                                        src="{{ asset('images/profile-picture/' . Auth::user()->profile_picture) }}"
+                                        alt="Current Profile Picture" class="img-thumbnail rounded-circle">
+                                </div>
+                                <p>Tải ảnh có định dạng <strong> 1024 x 1024 </strong>sẽ đẹp nhất</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
-        document.getElementById('uploadLink').addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
-            document.getElementById('hiddenFileInput').click();
-        });
+        function displayImage(event) {
+            var image = document.getElementById('previewImage');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        }
     </script>
 @endsection

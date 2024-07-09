@@ -76,19 +76,23 @@
             background: rgb(46 232 0) !important;
             color: white !important;
         }
-        .btn-content{
-            background:  rgb(46 232 0);
+
+        .btn-content {
+            background: rgb(46 232 0);
         }
-        .bg-footer1{
+
+        .bg-footer1 {
             background: #156801 !important;
         }
-        .bg-footer2{
+
+        .bg-footer2 {
             background: #ff8a00 !important;
         }
-        .bg-footer3{
+
+        .bg-footer3 {
             background: #005975 !important;
         }
-        
+
         /* Additional CSS for centering menu items on mobile */
         @media (max-width: 991px) {
             .navbar-nav {
@@ -120,8 +124,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-bold justify-content-center w-100">
-                        <li class="nav-item ps-5">
-                            <a class="nav-link" aria-current="page" href="#">Việc làm</a>
+                        <li class="nav-item ps-3">
+                            <a class="nav-link" aria-current="page" href="{{url('/')}}">Việc làm</a>
                         </li>
                         <li class="nav-item ps-3">
                             <a class="nav-link" href="#">Hồ sơ & CV</a>
@@ -136,24 +140,49 @@
                             <a class="nav-link" href="#">Cẩm nang tuyển dụng</a>
                         </li>
                         <ul class="navbar-nav icon-flag text-center">
-                            <li class="nav-item ps-5">
+                            <li class="nav-item">
                                 <a class="nav-link login-btn btn" href="{{ url('/dangtuyen') }}">
                                     Đăng tuyển ngay
                                 </a>
                             </li>
-                            <li class="nav-item ps-2">
+                            <li class="nav-item px-2">
                                 <a class="nav-link" href="#">
                                     <h4><i class="color-bg fa-regular fa-bell"></i></h4>
                                 </a>
                             </li>
-                            <li class="nav-item ps-2">
+                            <li class="nav-item">
                                 <a class="nav-link" href="#">
                                     <h4><i class="color-bg fa-brands fa-facebook-messenger"></i></h4>
                                 </a>
                             </li>
-                            <li class="nav-item ps-2">
-                                <a class="nav-link login-btn btn" href="{{ url('/login') }}">Đăng nhập</a>
-                            </li>
+                            @guest
+                                <li class="nav-item ps-2">
+                                    <a class="nav-link login-btn btn" href="{{ url('/login') }}">Đăng nhập</a>
+                                </li>
+                            @else
+                                <!-- User dropdown -->
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle login-btn btn" href="#"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        @if (auth()->user()->profile_picture)
+                                            <img width="30px" class="rounded-pill"
+                                                src="{{ asset('images/profile-picture/' . auth()->user()->profile_picture) }}"
+                                                alt="user-avatar">
+                                        @else
+                                            <img width="30px" class="rounded-pill"
+                                                src="{{ asset('images/profile-picture/user-default.jpg') }}"
+                                                alt="user-default">
+                                        @endif
+                                        {{ auth()->user()->fullname ?? auth()->user()->email }}
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="{{ url('account') }}"><i class="px-1 fa-solid fa-user"></i>Cài đặt tài khoản</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('profileUser') }}"><i class="px-1 fa-solid fa-circle-info"></i>Thông tin tài khoản</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="px-1 fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                                    </ul>
+                                </li>
+                            @endguest
                         </ul>
                     </ul>
                 </div>
@@ -226,16 +255,16 @@
         <div class="container pt-4">
             <div class="row border-bottom">
                 <div class="col-12 col-md-3">
-                    <img class="img-fluid" src="{{asset('images/logo.png')}}" alt="#">
+                    <img class="img-fluid" src="{{ asset('images/logo.png') }}" alt="#">
                     <div class="d-flex py-3">
-                        <img class="img-fluid" src="{{asset('images/googleforstarups.png')}}" alt="#">
-                        <img class="img-fluid px-2" src="{{asset('images/dmca.png')}}" alt="#">
-                        <img class="img-fluid" src="{{asset('images/bocongthuong.png')}}" alt="#">
+                        <img class="img-fluid" src="{{ asset('images/googleforstarups.png') }}" alt="#">
+                        <img class="img-fluid px-2" src="{{ asset('images/dmca.png') }}" alt="#">
+                        <img class="img-fluid" src="{{ asset('images/bocongthuong.png') }}" alt="#">
                     </div>
                     <p class="pt-2">Ứng dụng tải xuống</p>
                     <div class="d-flex py-3">
-                        <img class="img-fluid" src="{{asset('images/appstore.png')}}" alt="#">
-                        <img class="img-fluid px-2" src="{{asset('images/chplay.png')}}" alt="#">
+                        <img class="img-fluid" src="{{ asset('images/appstore.png') }}" alt="#">
+                        <img class="img-fluid px-2" src="{{ asset('images/chplay.png') }}" alt="#">
                     </div>
                 </div>
                 <div class="col-12 col-md-3 ps-5">
@@ -266,10 +295,18 @@
                     <p><a href="#" class="text-decoration-none text-dark">Trường đại học</a></p>
                     <p><a href="#" class="text-decoration-none text-dark">Các CLB, đoàn thể</a></p>
                     <div class="pt-5 d-flex">
-                        <a href="#"><h3 class="text-dark"><i class="fa-brands fa-facebook"></i></h3></a>
-                        <a href="#"><h3 class="text-dark px-2"><i class="fa-brands fa-twitter"></i></h3></a>
-                        <a href="#"><h3 class="text-dark px-2"><i class="fa-brands fa-linkedin"></i></h3></a>
-                        <a href="#"><h3 class="text-dark px-2"><i class="fa-brands fa-youtube"></i></h3></a>
+                        <a href="#">
+                            <h3 class="text-dark"><i class="fa-brands fa-facebook"></i></h3>
+                        </a>
+                        <a href="#">
+                            <h3 class="text-dark px-2"><i class="fa-brands fa-twitter"></i></h3>
+                        </a>
+                        <a href="#">
+                            <h3 class="text-dark px-2"><i class="fa-brands fa-linkedin"></i></h3>
+                        </a>
+                        <a href="#">
+                            <h3 class="text-dark px-2"><i class="fa-brands fa-youtube"></i></h3>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -279,20 +316,25 @@
                 <div class="col-12 col-md-9 pt-4">
                     <h4>Công ty Cổ phần Việc làm số 1 Việt Nam</h4>
                     <div class="d-flex">
-                        <p><i class="fa-solid fa-calculator color-bg pe-2"></i> Giấy phép đăng ký kinh doanh số: 0107307178</p>
+                        <p><i class="fa-solid fa-calculator color-bg pe-2"></i> Giấy phép đăng ký kinh doanh số:
+                            0107307178</p>
                     </div>
                     <div class="d-flex">
-                        <p><i class="fa-solid fa-file color-bg pe-2"></i> Giấy phép hoạt động dịch vụ việc làm số: <strong>18/SLĐTBXH GP</strong></p>
+                        <p><i class="fa-solid fa-file color-bg pe-2"></i> Giấy phép hoạt động dịch vụ việc làm số:
+                            <strong>18/SLĐTBXH GP</strong>
+                        </p>
                     </div>
                     <div class="d-flex">
-                        <p><i class="fa-solid fa-location-dot color-bg pe-2"></i>Trụ sở HN: Tòa FS GoldSeason số 47 Nguyễn Tuân, P.Thanh Xuân Trung, Q.Thanh Xuân, Hà Nội</p>
+                        <p><i class="fa-solid fa-location-dot color-bg pe-2"></i>Trụ sở HN: Tòa FS GoldSeason số 47
+                            Nguyễn Tuân, P.Thanh Xuân Trung, Q.Thanh Xuân, Hà Nội</p>
                     </div>
                     <div class="d-flex">
-                        <p><i class="fa-solid fa-location-dot color-bg pe-2"></i> Chi nhánh HCM: Tòa nhà Dali, 24C Phan Đăng Lưu, P.6, Q.Bình Thạnh, TP HCM</p>
+                        <p><i class="fa-solid fa-location-dot color-bg pe-2"></i> Chi nhánh HCM: Tòa nhà Dali, 24C Phan
+                            Đăng Lưu, P.6, Q.Bình Thạnh, TP HCM</p>
                     </div>
                 </div>
                 <div class="col-12 col-md-3 text-center">
-                    <img class="img-fluid pt-5" src="{{asset('images/qr.png')}}" alt="#">
+                    <img class="img-fluid pt-5" src="{{ asset('images/qr.png') }}" alt="#">
                     <p class=" pt-2"><a class="text-decoration-none color-bg" href="#">vieclamso1.vn</a></p>
                 </div>
             </div>
@@ -307,8 +349,8 @@
                 <div class="col-12 col-md-3">
                     <div class=" rounded bg-footer1 text-center">
                         <div class="px-3 d-flex">
-                            <img src="{{asset('images/vieclamso1icon.png')}}" alt="">
-                            <p class="text-white pt-3 ps-3">Nền tảng công nghệ tuyển 
+                            <img src="{{ asset('images/vieclamso1icon.png') }}" alt="">
+                            <p class="text-white pt-3 ps-3">Nền tảng công nghệ tuyển
                                 dụng thông minh Vieclamso1</p>
                         </div>
                     </div>
@@ -316,9 +358,9 @@
                 <div class="col-12 col-md-3">
                     <div class=" rounded bg-footer2 text-center">
                         <div class="px-3 d-flex">
-                            <img src="{{asset('images/logofooter1.png')}}" alt="">
-                            <p class="text-white pt-3 ps-3">Nền tảng quản lý và gia tăng 
-                                trải nghiệm nhân viên 
+                            <img src="{{ asset('images/logofooter1.png') }}" alt="">
+                            <p class="text-white pt-3 ps-3">Nền tảng quản lý và gia tăng
+                                trải nghiệm nhân viên
                                 HappyTime.vn</p>
                         </div>
                     </div>
@@ -326,8 +368,8 @@
                 <div class="col-12 col-md-3">
                     <div class=" rounded bg-footer3 text-center">
                         <div class="px-3 d-flex">
-                            <img src="{{asset('images/logofooter2.png')}}" alt="">
-                            <p class="text-white pt-3 ps-3">Nền tảng thiết lập và đánh giá 
+                            <img src="{{ asset('images/logofooter2.png') }}" alt="">
+                            <p class="text-white pt-3 ps-3">Nền tảng thiết lập và đánh giá
                                 năng lực nhân viên TestCenter.vn</p>
                         </div>
                     </div>
@@ -335,9 +377,9 @@
                 <div class="col-12 col-md-3">
                     <div class=" rounded bg-footer1 text-center">
                         <div class="px-3 d-flex">
-                            <img src="{{asset('images/logofooter3.png')}}" alt="">
-                            <p class="text-white pt-3 ps-3">Giải pháp quản trị tuyển 
-                                dụng hiệu suất cao 
+                            <img src="{{ asset('images/logofooter3.png') }}" alt="">
+                            <p class="text-white pt-3 ps-3">Giải pháp quản trị tuyển
+                                dụng hiệu suất cao
                                 SHiring.ai</p>
                         </div>
                     </div>
@@ -347,7 +389,7 @@
         <div class="container">
             <div class="row">
                 <div class="col pt-3 pb-2 text-center">
-                    <strong>&copy;  2014 2024 Vieclamso1 Vietnam JSC. All rights reserved.</strong>
+                    <strong>&copy; 2014 2024 Vieclamso1 Vietnam JSC. All rights reserved.</strong>
                 </div>
             </div>
         </div>
@@ -407,6 +449,8 @@
         createChart('chartHR', chartColors[3], data[3]);
         createChart('chartSales', chartColors[4], data[4]);
     </script>
+
+
 </body>
 
 </html>
