@@ -79,6 +79,11 @@
                                     href=""><i class="px-1 fa-solid fa-arrow-up"></i> Nâng cấp tài khoản</a>
                             </div>
                         </div>
+                        @error('profile_picture')
+                            <div class="py-3">
+                                <div class="alert alert-danger mt-2 py-2">{{ $message }}</div>
+                            </div>
+                        @enderror
                         <div class="form-check form-switch ms-5 py-5">
                             <h3><input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"></h3>
                             <label class="form-check-label" for="flexSwitchCheckDefault"><strong>Đang tắt tìm
@@ -206,9 +211,15 @@
                             <div class="mb-3">
                                 <label for="previewImage" class="form-label">Ảnh đại diện hiển thị</label>
                                 <div id="imagePreview" class="text-center">
-                                    <img id="previewImage"
-                                        src="{{ asset('images/profile-picture/' . Auth::user()->profile_picture) }}"
-                                        alt="Current Profile Picture" class="img-thumbnail rounded-circle">
+                                    @if (auth()->user()->profile_picture)
+                                        <img id="previewImage"
+                                            src="{{ asset('images/profile-picture/' . Auth::user()->profile_picture) }}"
+                                            alt="Current Profile Picture" class="img-thumbnail rounded-circle">
+                                    @else
+                                        <img id="previewImage"
+                                            src="{{ asset('images/profile-picture/user-default.jpg') }}"
+                                            alt="user-default" class="img-thumbnail rounded-circle">
+                                    @endif
                                 </div>
                                 <p>Tải ảnh có định dạng <strong> 1024 x 1024 </strong>sẽ đẹp nhất</p>
                             </div>

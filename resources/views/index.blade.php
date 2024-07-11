@@ -100,314 +100,93 @@
                 <div class="row">
                     <div class="col-12 col-md-4">
                         <div class="dropdown d-flex pb-3">
-                           
-                            <p class="pt-2 pe-2">Lọc theo: </p> <a id="navbarDropdown" class="btn btn-light dropdown-toggle" href="#"
-                            role="button" data-bs-toggle="dropdown" aria-expanded="false">Địa điểm
+                            <p class="pt-2 pe-2">Lọc theo: </p> <a id="navbarDropdown" class="btn btn-light dropdown-toggle"
+                                href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Danh mục
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a  class="dropdown-item" href="#">Mức lương</a></li>
-                                <li><a  class="dropdown-item" href="#">Kinh nghiệm</a></li>
-                                <li><a  class="dropdown-item" href="#">Ngành nghề</a></li>
+                                @foreach ($jobCategories as $category)
+                                    <li><a class="dropdown-item" href="#">{{ $category->name }}</a></li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
-                    <div class="col-12 col-md-8">
+                    {{-- <div class="col-12 col-md-8">
                         <div class="d-flex">
-                            <h4 class="pe-2"><a class="color-bg rounded-circle border border-2 px-2 angle-left"
-                                    href="#"><i class="fa-solid fa-angle-left"></i></a></h4>
-                            <a class="rounded-pill border border-2 px-2 angle-left text-decoration-none text-dark"
-                                href="#">
-                                <p>Hà Nội</p>
-                            </a>
-                            <a class="rounded-pill border border-2 px-2 angle-left text-decoration-none text-dark"
-                                href="#">
-                                <p>Ba Đình</p>
-                            </a>
-                            <a class="rounded-pill border border-2 px-2 angle-left text-decoration-none text-dark"
-                                href="#">
-                                <p>Hoàn Kiếm</p>
-                            </a>
-                            <a class="rounded-pill border border-2 px-2 angle-left text-decoration-none text-dark"
-                                href="#">
-                                <p>Hai Bà Trưng</p>
-                            </a>
-                            <a class="rounded-pill border border-2 px-2 angle-left text-decoration-none text-dark"
-                                href="#">
-                                <p>Đống Đa</p>
-                            </a>
-                            <h4 class="ps-2"><a class="color-bg rounded-circle border border-2 px-2 angle-left"
-                                    href="#"><i class="fa-solid fa-angle-right"></i></a></h4>
+                            <h4 class="pe-2">
+                                <a class="color-bg rounded-circle border border-2 px-2 angle-left" href="#">
+                                    <i class="fa-solid fa-angle-left"></i>
+                                </a>
+                            </h4>
+                            <div class="d-flex">
+                                @foreach ($jobs as $job)
+                                    <a class="rounded-pill border border-2 px-2 angle-left text-decoration-none text-dark"
+                                        href="#">
+                                        <p>{{ $job->location }}</p>
+                                    </a>
+                                @endforeach
+                            </div>
+                            <h4 class="ps-2">
+                                <a class="color-bg rounded-circle border border-2 px-2 angle-left" href="#">
+                                    <i class="fa-solid fa-angle-right"></i>
+                                </a>
+                            </h4>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
-                <div class="row py-2">
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light rounded py-2">
-                            <div class="row">
-                                <div class="col-12 col-md-4 text-center">
-                                    <img class="img-fluid py-2" src="{{ asset('images/logocongty.png') }}"
-                                        alt="#">
-                                </div>
-                                <div class="col-12 col-md-8 ps-3">
-                                    <h6 class="pt-3"><strong>Nhân Viên Thiết Kế Đồ Họa</strong></h6>
-                                    <p> CÔNG TY CỔ PHẦN TẬP ĐOÀN ĐẦU TƯ</p>
-                                    <div class="d-flex">
-                                        <p class="p-1 rounded content">14 - 20 Triệu</p>
-                                        <p class="px-2"></p>
-                                        <p class="p-1 rounded content">Hà Nội</p>
-                                        <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
-                                                class="fa-regular fa-heart"></i></a>
+                <div class="row py-2" id="job-list">
+                    @foreach ($jobs as $job)
+                        <div class="col-12 col-md-4">
+                            <div class="py-3">
+                                <div class="bg-light rounded py-2">
+                                    <div class="row">
+                                        <div class="col-12 col-md-4 text-center">
+                                            <a href="#"><img class="img-fluid py-2"
+                                                    src="{{ asset('images/company_image/' . $job->company_image) }}"
+                                                    alt="{{ $job->company_name }}"></a>
+                                        </div>
+                                        <div class="col-12 col-md-8 ps-3">
+                                            <a class="text-decoration-none text-dark" href="#">
+                                                <h6 class="pt-3"><strong>{{ $job->name_job }}</strong></h6>
+                                            </a>
+                                            <a class="text-decoration-none text-dark" href="#">
+                                                <p>{{ $job->company_name }}</p>
+                                            </a>
+                                            <div class="d-flex">
+                                                <p class="p-1 rounded content">{{ $job->min_salary }} -
+                                                    {{ $job->max_salary }}
+                                                    đ</p>
+                                                <p class="px-2"></p>
+                                                <p class="p-1 rounded content">{{ $job->location }}</p>
+                                                <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
+                                                        class="fa-regular fa-heart"></i></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light rounded py-2">
-                            <div class="row">
-                                <div class="col-12 col-md-4 text-center">
-                                    <img class="img-fluid py-2" src="{{ asset('images/logocongty.png') }}"
-                                        alt="#">
-                                </div>
-                                <div class="col-12 col-md-8 ps-3">
-                                    <h6 class="pt-3"><strong>Nhân Viên Thiết Kế Đồ Họa</strong></h6>
-                                    <p> CÔNG TY CỔ PHẦN TẬP ĐOÀN ĐẦU TƯ</p>
-                                    <div class="d-flex">
-                                        <p class="p-1 rounded content">14 - 20 Triệu</p>
-                                        <p class="px-2"></p>
-                                        <p class="p-1 rounded content">Hà Nội</p>
-                                        <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
-                                                class="fa-regular fa-heart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light rounded py-2">
-                            <div class="row">
-                                <div class="col-12 col-md-4 text-center">
-                                    <img class="img-fluid py-2" src="{{ asset('images/logocongty.png') }}"
-                                        alt="#">
-                                </div>
-                                <div class="col-12 col-md-8 ps-3">
-                                    <h6 class="pt-3"><strong>Nhân Viên Thiết Kế Đồ Họa</strong></h6>
-                                    <p> CÔNG TY CỔ PHẦN TẬP ĐOÀN ĐẦU TƯ</p>
-                                    <div class="d-flex">
-                                        <p class="p-1 rounded content">14 - 20 Triệu</p>
-                                        <p class="px-2"></p>
-                                        <p class="p-1 rounded content">Hà Nội</p>
-                                        <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
-                                                class="fa-regular fa-heart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row py-2">
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light rounded py-2">
-                            <div class="row">
-                                <div class="col-12 col-md-4 text-center">
-                                    <img class="img-fluid py-2" src="{{ asset('images/logocongty.png') }}"
-                                        alt="#">
-                                </div>
-                                <div class="col-12 col-md-8 ps-3">
-                                    <h6 class="pt-3"><strong>Nhân Viên Thiết Kế Đồ Họa</strong></h6>
-                                    <p> CÔNG TY CỔ PHẦN TẬP ĐOÀN ĐẦU TƯ</p>
-                                    <div class="d-flex">
-                                        <p class="p-1 rounded content">14 - 20 Triệu</p>
-                                        <p class="px-2"></p>
-                                        <p class="p-1 rounded content">Hà Nội</p>
-                                        <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
-                                                class="fa-regular fa-heart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light rounded py-2">
-                            <div class="row">
-                                <div class="col-12 col-md-4 text-center">
-                                    <img class="img-fluid py-2" src="{{ asset('images/logocongty.png') }}"
-                                        alt="#">
-                                </div>
-                                <div class="col-12 col-md-8 ps-3">
-                                    <h6 class="pt-3"><strong>Nhân Viên Thiết Kế Đồ Họa</strong></h6>
-                                    <p> CÔNG TY CỔ PHẦN TẬP ĐOÀN ĐẦU TƯ</p>
-                                    <div class="d-flex">
-                                        <p class="p-1 rounded content">14 - 20 Triệu</p>
-                                        <p class="px-2"></p>
-                                        <p class="p-1 rounded content">Hà Nội</p>
-                                        <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
-                                                class="fa-regular fa-heart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light rounded py-2">
-                            <div class="row">
-                                <div class="col-12 col-md-4 text-center">
-                                    <img class="img-fluid py-2" src="{{ asset('images/logocongty.png') }}"
-                                        alt="#">
-                                </div>
-                                <div class="col-12 col-md-8 ps-3">
-                                    <h6 class="pt-3"><strong>Nhân Viên Thiết Kế Đồ Họa</strong></h6>
-                                    <p> CÔNG TY CỔ PHẦN TẬP ĐOÀN ĐẦU TƯ</p>
-                                    <div class="d-flex">
-                                        <p class="p-1 rounded content">14 - 20 Triệu</p>
-                                        <p class="px-2"></p>
-                                        <p class="p-1 rounded content">Hà Nội</p>
-                                        <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
-                                                class="fa-regular fa-heart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row py-2">
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light rounded py-2">
-                            <div class="row">
-                                <div class="col-12 col-md-4 text-center">
-                                    <img class="img-fluid py-2" src="{{ asset('images/logocongty.png') }}"
-                                        alt="#">
-                                </div>
-                                <div class="col-12 col-md-8 ps-3">
-                                    <h6 class="pt-3"><strong>Nhân Viên Thiết Kế Đồ Họa</strong></h6>
-                                    <p> CÔNG TY CỔ PHẦN TẬP ĐOÀN ĐẦU TƯ</p>
-                                    <div class="d-flex">
-                                        <p class="p-1 rounded content">14 - 20 Triệu</p>
-                                        <p class="px-2"></p>
-                                        <p class="p-1 rounded content">Hà Nội</p>
-                                        <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
-                                                class="fa-regular fa-heart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light rounded py-2">
-                            <div class="row">
-                                <div class="col-12 col-md-4 text-center">
-                                    <img class="img-fluid py-2" src="{{ asset('images/logocongty.png') }}"
-                                        alt="#">
-                                </div>
-                                <div class="col-12 col-md-8 ps-3">
-                                    <h6 class="pt-3"><strong>Nhân Viên Thiết Kế Đồ Họa</strong></h6>
-                                    <p> CÔNG TY CỔ PHẦN TẬP ĐOÀN ĐẦU TƯ</p>
-                                    <div class="d-flex">
-                                        <p class="p-1 rounded content">14 - 20 Triệu</p>
-                                        <p class="px-2"></p>
-                                        <p class="p-1 rounded content">Hà Nội</p>
-                                        <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
-                                                class="fa-regular fa-heart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light rounded py-2">
-                            <div class="row">
-                                <div class="col-12 col-md-4 text-center">
-                                    <img class="img-fluid py-2" src="{{ asset('images/logocongty.png') }}"
-                                        alt="#">
-                                </div>
-                                <div class="col-12 col-md-8 ps-3">
-                                    <h6 class="pt-3"><strong>Nhân Viên Thiết Kế Đồ Họa</strong></h6>
-                                    <p> CÔNG TY CỔ PHẦN TẬP ĐOÀN ĐẦU TƯ</p>
-                                    <div class="d-flex">
-                                        <p class="p-1 rounded content">14 - 20 Triệu</p>
-                                        <p class="px-2"></p>
-                                        <p class="p-1 rounded content">Hà Nội</p>
-                                        <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
-                                                class="fa-regular fa-heart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row py-2">
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light rounded py-2">
-                            <div class="row">
-                                <div class="col-12 col-md-4 text-center">
-                                    <img class="img-fluid py-2" src="{{ asset('images/logocongty.png') }}"
-                                        alt="#">
-                                </div>
-                                <div class="col-12 col-md-8 ps-3">
-                                    <h6 class="pt-3"><strong>Nhân Viên Thiết Kế Đồ Họa</strong></h6>
-                                    <p> CÔNG TY CỔ PHẦN TẬP ĐOÀN ĐẦU TƯ</p>
-                                    <div class="d-flex">
-                                        <p class="p-1 rounded content">14 - 20 Triệu</p>
-                                        <p class="px-2"></p>
-                                        <p class="p-1 rounded content">Hà Nội</p>
-                                        <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
-                                                class="fa-regular fa-heart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light rounded py-2">
-                            <div class="row">
-                                <div class="col-12 col-md-4 text-center">
-                                    <img class="img-fluid py-2" src="{{ asset('images/logocongty.png') }}"
-                                        alt="#">
-                                </div>
-                                <div class="col-12 col-md-8 ps-3">
-                                    <h6 class="pt-3"><strong>Nhân Viên Thiết Kế Đồ Họa</strong></h6>
-                                    <p> CÔNG TY CỔ PHẦN TẬP ĐOÀN ĐẦU TƯ</p>
-                                    <div class="d-flex">
-                                        <p class="p-1 rounded content">14 - 20 Triệu</p>
-                                        <p class="px-2"></p>
-                                        <p class="p-1 rounded content">Hà Nội</p>
-                                        <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
-                                                class="fa-regular fa-heart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <div class="bg-light rounded py-2">
-                            <div class="row">
-                                <div class="col-12 col-md-4 text-center">
-                                    <img class="img-fluid py-2" src="{{ asset('images/logocongty.png') }}"
-                                        alt="#">
-                                </div>
-                                <div class="col-12 col-md-8 ps-3">
-                                    <h6 class="pt-3"><strong>Nhân Viên Thiết Kế Đồ Họa</strong></h6>
-                                    <p> CÔNG TY CỔ PHẦN TẬP ĐOÀN ĐẦU TƯ</p>
-                                    <div class="d-flex">
-                                        <p class="p-1 rounded content">14 - 20 Triệu</p>
-                                        <p class="px-2"></p>
-                                        <p class="p-1 rounded content">Hà Nội</p>
-                                        <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
-                                                class="fa-regular fa-heart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="row">
                     <div class="col py-4">
                         <div class="d-flex justify-content-center">
-                            <h4 class="pe-2"><a class="color-bg rounded-circle border border-2 px-2 angle-left"
-                                    href="#"><i class="fa-solid fa-angle-left"></i></a></h4>
-                            <p>1/33 trang</p>
-                            <h4 class="ps-2"><a class="color-bg rounded-circle border border-2 px-2 angle-left"
-                                    href="#"><i class="fa-solid fa-angle-right"></i></a></h4>
+                            @if ($currentPage > 1)
+                                <h4 class="pe-2">
+                                    <a class="color-bg rounded-circle border border-2 px-2 angle-left"
+                                        href="{{ route('index', ['page' => $currentPage - 1]) }}">
+                                        <i class="fa-solid fa-angle-left"></i>
+                                    </a>
+                                </h4>
+                            @endif
+                            <p>{{ $currentPage }}/{{ $totalPages }} trang</p>
+                            @if ($currentPage < $totalPages)
+                                <h4 class="ps-2">
+                                    <a class="color-bg rounded-circle border border-2 px-2 angle-left"
+                                        href="{{ route('index', ['page' => $currentPage + 1]) }}">
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </a>
+                                </h4>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -680,4 +459,55 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const chartColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
+
+        const data = [14600, 7531, 5036, 4732, 4380];
+        const labels = ['Marketing', 'IT', 'Finance', 'HR', 'Sales'];
+
+        function createChart(chartId, color, data) {
+            const ctx = document.getElementById(chartId).getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [''],
+                    datasets: [{
+                        data: [data],
+                        backgroundColor: color,
+                        borderColor: color,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 14600,
+                            ticks: {
+                                display: false
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        createChart('chartMarketing', chartColors[0], data[0]);
+        createChart('chartIT', chartColors[1], data[1]);
+        createChart('chartFinance', chartColors[2], data[2]);
+        createChart('chartHR', chartColors[3], data[3]);
+        createChart('chartSales', chartColors[4], data[4]);
+    </script>
 @endsection

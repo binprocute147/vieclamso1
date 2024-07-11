@@ -9,23 +9,32 @@ use App\Models\User;
 
 class UploadCVController extends Controller
 {
+    // uploadcv and edit cv 
     public function store(Request $request)
     {
         $request->validate([
-            'fileInput' => 'required|mimes:doc,docx,pdf|max:5120', 
+            'fileInput' => 'required|mimes:doc,docx,pdf|max:5120',
+        ], [
+            'fileInput.required' => 'Vui lòng chọn một file CV để tải lên.',
+            'fileInput.mimes' => 'Định dạng file không hợp lệ. Chỉ chấp nhận file định dạng .doc, .docx, .pdf.',
+            'fileInput.max' => 'Kích thước file không được vượt quá 5MB.',
         ]);
 
         if (Auth::check()) {
             $userId = Auth::id();
             $user = User::find($userId);
 
-            // Handle file upload
             if ($request->hasFile('fileInput')) {
                 $file = $request->file('fileInput');
                 $fileName = time() . '_' . $file->getClientOriginalName();
-                $file->storeAs('cv', $fileName, 'public');
+                $destinationPath = public_path('images/cv');
 
-                // Delete old CV if exists
+                if (!File::exists($destinationPath)) {
+                    File::makeDirectory($destinationPath, 0755, true);
+                }
+
+                $file->move($destinationPath, $fileName);
+
                 if ($user->cv) {
                     $oldFilePath = public_path('images/cv/') . $user->cv;
                     if (File::exists($oldFilePath)) {
@@ -33,11 +42,79 @@ class UploadCVController extends Controller
                     }
                 }
 
-                // Save file path to user's cv field
                 $user->cv = $fileName;
                 $user->save();
+
+                return response()->json(['success' => true]);
             }
         }
-        return redirect()->back()->with('success', 'CV của bạn đã được tải lên thành công.');
+
+        return response()->json(['success' => false, 'message' => 'Đã xảy ra lỗi khi tải lên CV.'], 500);
+    }
+
+    // edit cv
+    public function update(Request $request)
+    {
+        $request->validate([
+            'fileInputEdit' => 'nullable|mimes:doc,docx,pdf|max:5120',
+        ], [
+            'fileInputEdit.mimes' => 'Định dạng file không hợp lệ. Chỉ chấp nhận file định dạng .doc, .docx, .pdf.',
+            'fileInputEdit.max' => 'Kích thước file không được vượt quá 5MB.',
+        ]);
+
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $user = User::find($userId);
+
+            if ($request->hasFile('fileInputEdit')) {
+                $file = $request->file('fileInputEdit');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $destinationPath = public_path('images/cv');
+
+                if (!File::exists($destinationPath)) {
+                    File::makeDirectory($destinationPath, 0755, true);
+                }
+
+                $file->move($destinationPath, $fileName);
+
+                if ($user->cv) {
+                    $oldFilePath = public_path('images/cv/') . $user->cv;
+                    if (File::exists($oldFilePath)) {
+                        File::delete($oldFilePath);
+                    }
+                }
+
+                $user->cv = $fileName;
+                $user->save();
+
+                return response()->json(['success' => true, 'message' => 'Cập nhật CV thành công.']);
+            }
+        }
+
+        return response()->json(['success' => false, 'message' => 'Đã xảy ra lỗi khi cập nhật CV.'], 500);
+    }
+
+
+    // delete cv
+    public function destroy(Request $request)
+    {
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $user = User::find($userId);
+
+            if ($user->cv) {
+                $filePath = public_path('images/cv/') . $user->cv;
+                if (File::exists($filePath)) {
+                    File::delete($filePath);
+                }
+
+                $user->cv = null;
+                $user->save();
+
+                return response()->json(['success' => true, 'message' => 'Xóa CV thành công.']);
+            }
+        }
+
+        return response()->json(['success' => false, 'message' => 'Đã xảy ra lỗi khi xóa CV.'], 500);
     }
 }

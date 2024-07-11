@@ -7,6 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Include SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+    <!-- JavaScript for SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Việc làm số 1</title>
     <style>
@@ -125,7 +130,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-bold justify-content-center w-100">
                         <li class="nav-item ps-3">
-                            <a class="nav-link" aria-current="page" href="{{url('/')}}">Việc làm</a>
+                            <a class="nav-link" aria-current="page" href="{{ url('/') }}">Việc làm</a>
                         </li>
                         <li class="nav-item ps-3">
                             <a class="nav-link" href="#">Hồ sơ & CV</a>
@@ -176,10 +181,13 @@
                                         {{ auth()->user()->fullname ?? auth()->user()->email }}
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="{{ url('account') }}"><i class="px-1 fa-solid fa-user"></i>Cài đặt tài khoản</a></li>
-                                        <li><a class="dropdown-item" href="{{ url('profileUser') }}"><i class="px-1 fa-solid fa-circle-info"></i>Thông tin tài khoản</a>
+                                        <li><a class="dropdown-item" href="{{ url('account') }}"><i
+                                                    class="px-1 fa-solid fa-user"></i>Cài đặt tài khoản</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('profileUser') }}"><i
+                                                    class="px-1 fa-solid fa-circle-info"></i>Thông tin tài khoản</a>
                                         </li>
-                                        <li><a class="dropdown-item" href="{{ route('logout') }}"><i class="px-1 fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('logout') }}"><i
+                                                    class="px-1 fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
                                     </ul>
                                 </li>
                             @endguest
@@ -395,61 +403,11 @@
         </div>
     </footer>
     {{-- endfooter --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://kit.fontawesome.com/f6dce9b617.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
-    <script>
-        const chartColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
-
-        const data = [14600, 7531, 5036, 4732, 4380];
-        const labels = ['Marketing', 'IT', 'Finance', 'HR', 'Sales'];
-
-        function createChart(chartId, color, data) {
-            const ctx = document.getElementById(chartId).getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: [''],
-                    datasets: [{
-                        data: [data],
-                        backgroundColor: color,
-                        borderColor: color,
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            display: false
-                        },
-                        y: {
-                            beginAtZero: true,
-                            max: 14600,
-                            ticks: {
-                                display: false
-                            },
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        createChart('chartMarketing', chartColors[0], data[0]);
-        createChart('chartIT', chartColors[1], data[1]);
-        createChart('chartFinance', chartColors[2], data[2]);
-        createChart('chartHR', chartColors[3], data[3]);
-        createChart('chartSales', chartColors[4], data[4]);
-    </script>
-
 
 </body>
 

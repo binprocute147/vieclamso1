@@ -6,9 +6,15 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UploadCVController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\JobController;
 
 // route logout 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Route hiển thị dữ liệu job và job_categories
+Route::get('/', [JobController::class, 'index'])->name('jobs.index');
+
 
 // route hiển thị trang index khi chạy lên đầu tiên 
 Route::get('/{index?}', [ProvisionServer::class, 'page'])->name('index');
@@ -26,8 +32,12 @@ Route::post('/profile/update', [ProfileController::class, 'update'])->name('prof
 Route::put('/profile/picture/update', [ProfileController::class, 'updateProfilePicture'])
     ->name('profile.picture.update');
 
-//upload cv
+//route cv
 Route::middleware(['auth'])->group(function () {
     Route::post('/upload-cv', [UploadCVController::class, 'store'])->name('cv.store');
+    Route::get('/account', [AccountController::class, 'showAccount'])->name('account');
+    Route::post('/cv/update', [UploadCVController::class, 'update'])->name('cv.update');
+    Route::delete('/cv/destroy', [UploadCVController::class, 'destroy'])->name('cv.destroy');
 });
+
 

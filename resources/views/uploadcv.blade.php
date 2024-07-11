@@ -1,4 +1,5 @@
 @extends('home')
+
 @section('content')
     <div class="bg-content banner">
         <div class="container ">
@@ -20,18 +21,22 @@
                                 <h3 class="px-3"><i class="fa-solid fa-cloud-arrow-up"></i></h3>
                                 <p><strong>Tải lên từ máy tính, chọn hoặc kéo thả</strong></p>
                             </div>
-                            <p> Hỗ trợ định dạng .doc, .docx, .pdf kích thước dưới 5MB</p>
+                            <div id="fileName" class="py-2"></div>
+                            <p class="none"> Hỗ trợ định dạng .doc, .docx, .pdf kích thước dưới 5MB</p>
                             <a id="chooseCvLink" class="p-2 text-decoration-none rounded text-dark bg-content"
                                 href="javascript:void(0);"><strong>Chọn CV</strong></a>
                             <form method="POST" action="{{ route('cv.store') }}" enctype="multipart/form-data"
                                 id="uploadForm" style="display: none;">
                                 @csrf
-                                <input type="file" id="fileInput" name="fileInput" accept=".doc,.docx,.pdf">
+                                <input type="file" id="fileInput" name="fileInput">
                             </form>
                         </div>
                         <div class="py-3 text-center">
-                            <a id="submitCvLink" style="background: #20a300; display: none;" class="text-decoration-none text-light py-2 px-3 rounded" href="">Tải CV lên</a>
+                            <a id="submitCvLink" style="background: #20a300;"
+                                class="text-decoration-none text-light py-2 px-3 rounded" href="javascript:void(0);">Tải CV
+                                lên</a>
                         </div>
+                        <div id="uploadError" class="alert alert-danger" style="display: none;"></div>
                         <hr>
                         <div>
                             <div class="row py-2">
@@ -81,27 +86,109 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('chooseCvLink').addEventListener('click', function() {
-            document.getElementById('fileInput').click();
-        });
-    </script>
+    <!-- Modal -->
+    <div class="modal fade" id="uploadSuccessModal" tabindex="-1" aria-labelledby="uploadSuccessModalLabel"
+        aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadSuccessModalLabel">Thông báo</h5>
+                </div>
+                <div class="modal-body text-center">
+                    <h5><strong>CV của bạn đã được tải lên thành công.</strong></h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="redirectToAccount()">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
     <script>
+        function redirectToAccount() {
+            window.location.href = "{{ url('/account') }}";
+        }
+
         document.getElementById('chooseCvLink').addEventListener('click', function() {
             document.getElementById('fileInput').click();
         });
 
         document.getElementById('fileInput').addEventListener('change', function() {
             var fileInput = document.getElementById('fileInput');
-            var submitCvLink = document.getElementById('submitCvLink');
-            
+            var fileName = document.getElementById('fileName');
+
             if (fileInput.files.length > 0) {
-                submitCvLink.style.display = 'block';
+                fileName.innerHTML = 'Tệp đã chọn: ' + fileInput.files[0].name;
+                document.querySelector('.none').style.display = 'none';
             } else {
-                submitCvLink.style.display = 'none';
+                fileName.innerHTML = '';
             }
+        });
+
+        document.getElementById('submitCvLink').addEventListener('click', function(event) {
+            event.preventDefault();
+
+            var fileInput = document.getElementById('fileInput');
+            var uploadForm = document.getElementById('uploadForm');
+            var uploadError = document.getElementById('uploadError');
+
+            uploadError.style.display = 'none'; // Ẩn lỗi trước khi kiểm tra
+
+            if (fileInput.files.length === 0) {
+                uploadError.style.display = 'block';
+                uploadError.innerHTML = 'Vui lòng chọn một file để tải lên.';
+                return;
+            }
+
+            var allowedExtensions = /(\.doc|\.docx|\.pdf)$/i;
+            if (!allowedExtensions.exec(fileInput.files[0].name)) {
+                uploadError.style.display = 'block';
+                uploadError.innerHTML =
+                    'Định dạng file không hợp lệ. Chỉ chấp nhận file định dạng .doc, .docx, .pdf.';
+                return;
+            }
+
+            var fileSize = fileInput.files[0].size;
+            var maxSize = 5 * 1024 * 1024;
+            if (fileSize > maxSize) {
+                uploadError.style.display = 'block';
+                uploadError.innerHTML = 'Kích thước file không được vượt quá 5MB.';
+                return;
+            }
+
+            document.getElementById('submitCvLink').innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin"></i> Đang tải...';
+
+            var formData = new FormData(uploadForm);
+
+            // Gửi form bằng AJAX
+            fetch('{{ route('cv.store') }}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Sau khi nhận được phản hồi từ máy chủ, thực hiện việc xử lý
+                    if (data.success) {
+                        // Chờ hiệu ứng loading kết thúc rồi mới hiển thị modal
+                        setTimeout(function() {
+                            document.getElementById('submitCvLink').innerHTML = 'Tải CV lên';
+                            $('#uploadSuccessModal').modal('show');
+                        }, 2000);
+                    } else {
+                        document.getElementById('submitCvLink').innerHTML = 'Tải CV lên';
+                        uploadError.style.display = 'block';
+                        uploadError.innerHTML = data.message || 'Đã xảy ra lỗi khi tải lên CV.';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('submitCvLink').innerHTML = 'Tải CV lên';
+                    uploadError.style.display = 'block';
+                    uploadError.innerHTML = 'Đã xảy ra lỗi khi tải lên CV.';
+                });
         });
     </script>
 @endsection
