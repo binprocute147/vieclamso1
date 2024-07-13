@@ -8,24 +8,31 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UploadCVController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\ForgotPasswordController;
+
 
 // route logout 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Route hiển thị dữ liệu job và job_categories
 Route::get('/', [JobController::class, 'index'])->name('jobs.index');
-
+Route::get('/search-job', [JobController::class, 'index'])->name('searchjob');
 
 // route hiển thị trang index khi chạy lên đầu tiên 
 Route::get('/{index?}', [ProvisionServer::class, 'page'])->name('index');
 
-// route login
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
 
-// route đăng ký 
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
+Route::group(['middleware' => 'guest'], function () {
+
+    // route login
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+
+    // route đăng ký 
+    Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register']);
+});
+
 
 // route cập nhật thông tin tài khoản
 Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
@@ -39,5 +46,3 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cv/update', [UploadCVController::class, 'update'])->name('cv.update');
     Route::delete('/cv/destroy', [UploadCVController::class, 'destroy'])->name('cv.destroy');
 });
-
-

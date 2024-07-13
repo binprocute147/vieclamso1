@@ -11,11 +11,12 @@ class JobCategories extends Model
 
     protected $fillable = [
         'name',
+        'jobcategories_image',
     ];
 
     public function jobs()
     {
-        return $this->hasMany(Job::class);
+        return $this->hasMany(Job::class, 'job_category_id');
     }
 }
 
