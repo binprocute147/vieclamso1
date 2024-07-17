@@ -47,13 +47,18 @@
                             <div class="d-flex">
                                 <p class="text-light"><i class="px-2 color-bg fa-solid fa-chart-simple"></i>Nhu cầu
                                     tuyển dụng theo</p>
-                                <a class="nav-link dropdown-toggle w-25 ms-auto pe-2 text-light" href="#"
+                                {{-- <a class="nav-link dropdown-toggle w-25 ms-auto pe-2 text-light" href="#"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Ngành nghề
-                                </a>
+                                </a> --}}
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle w-25 ms-auto pe-2 text-light"
+                                href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ngành nghề
+                                <span class="caret"></span>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Marketing</a></li>
-                                    <li><a class="dropdown-item" href="#">IT</a></li>
+                                    @foreach ($jobCategories as $category)
+                                        <li><a class="dropdown-item category-filter" href="#"
+                                                data-category-id="{{ $category->id }}">{{ $category->name }}</a></li>
+                                    @endforeach
                                 </ul>
                             </div>
                             <div class="d-flex justify-content-between">
@@ -154,7 +159,9 @@
                                 <div class="bg-light rounded py-2">
                                     <div class="row">
                                         <div class="col-12 col-md-4 text-center">
-                                            <a href="#"><img class="img-fluid py-2" src="{{ asset('images/company_image/' . $job->company_image) }}" alt="{{ $job->company_name }}"></a>
+                                            <a href="#"><img class="img-fluid py-2"
+                                                    src="{{ asset('images/company_image/' . $job->company_image) }}"
+                                                    alt="{{ $job->company_name }}"></a>
                                         </div>
                                         <div class="col-12 col-md-8 ps-3">
                                             <a class="text-decoration-none text-dark" href="#">
@@ -164,10 +171,12 @@
                                                 <p>{{ $job->company_name }}</p>
                                             </a>
                                             <div class="d-flex">
-                                                <p class="p-1 rounded content">{{ $job->min_salary }} - {{ $job->max_salary }} đ</p>
+                                                <p class="p-1 rounded content">{{ $job->min_salary }} -
+                                                    {{ $job->max_salary }} đ</p>
                                                 <p class="px-2"></p>
                                                 <p class="p-1 rounded content">{{ $job->location }}</p>
-                                                <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i class="fa-regular fa-heart"></i></a>
+                                                <a class="ms-auto text-decoration-none text-dark pe-2" href="#"><i
+                                                        class="fa-regular fa-heart"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -175,7 +184,7 @@
                             </div>
                         </div>
                     @endforeach
-                </div>                
+                </div>
                 <div class="row">
                     <div class="col py-4">
                         <div class="d-flex justify-content-center" id="pagination">

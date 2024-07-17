@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 
 class ProfileController extends Controller
@@ -58,7 +59,7 @@ class ProfileController extends Controller
     public function updateProfilePicture(Request $request)
     {
         $request->validate([
-            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:4048', 
+            'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:4048',
         ]);
 
         if (Auth::check()) {
@@ -93,5 +94,30 @@ class ProfileController extends Controller
         }
 
         return redirect()->back()->with('error', 'Đã xảy ra lỗi khi cập nhật ảnh đại diện.');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|different:current_password',
+            'confirm_password' => 'required|same:new_password',
+        ], [
+            'new_password.min' => 'Mật khẩu mới phải chứa ít nhất 8 ký tự.',
+            'new_password.different' => 'Mật khẩu mới phải khác mật khẩu hiện tại.',
+            'confirm_password.same' => 'Mật khẩu nhập lại không khớp.',
+        ]);
+
+        $user = auth()->user();
+
+        if (!$user || !Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'Mật khẩu hiện tại không đúng.'])->withInput();
+        }
+
+        // Cập nhật mật khẩu mới
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->back()->with('success', 'Đổi mật khẩu thành công.');
     }
 }

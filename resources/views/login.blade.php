@@ -68,7 +68,7 @@
                         @enderror
                     </div>
                     <div class="d-flex justify-content-end mb-3 py-3">
-                        <a href="{{url('/forgot-password')}}" class="text-decoration-none bg-text">Quên mật khẩu?</a>
+                        <a href="#" class="text-decoration-none bg-text">Quên mật khẩu?</a>
                     </div>
                     <button type="submit" class="btn bg-btn w-100 text-light">Đăng nhập</button>
                     <div class="mt-3 text-center">

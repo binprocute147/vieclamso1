@@ -132,7 +132,7 @@
             var uploadForm = document.getElementById('uploadForm');
             var uploadError = document.getElementById('uploadError');
 
-            uploadError.style.display = 'none'; // Ẩn lỗi trước khi kiểm tra
+            uploadError.style.display = 'none'; 
 
             if (fileInput.files.length === 0) {
                 uploadError.style.display = 'block';

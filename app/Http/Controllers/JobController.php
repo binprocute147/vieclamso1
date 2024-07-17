@@ -48,7 +48,7 @@ class JobController extends Controller
             ->paginate($companiesPerPage, ['*'], 'company_page', $companyPage);
 
         // Lấy danh sách các danh mục công việc và phân trang chúng
-        $jobCategories = JobCategories::paginate($categoriesPerPage, ['*'], 'category_page', $categoryPage);
+        $jobCategories = JobCategories::withCount('jobs')->paginate($categoriesPerPage, ['*'], 'category_page', $categoryPage);
         $allLocations = Job::select('location')->distinct()->orderBy('location')->get();
 
         if ($request->ajax() && $request->has('search')) {
@@ -88,4 +88,6 @@ class JobController extends Controller
         // Trả về view index với các biến dữ liệu cần thiết
         return view('index', compact('jobs', 'currentPage', 'totalPages', 'jobCategories', 'locations', 'companies', 'allLocations'));
     }
+
+    
 }
