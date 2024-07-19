@@ -47,10 +47,6 @@
                             <div class="d-flex">
                                 <p class="text-light"><i class="px-2 color-bg fa-solid fa-chart-simple"></i>Nhu cầu
                                     tuyển dụng theo</p>
-                                {{-- <a class="nav-link dropdown-toggle w-25 ms-auto pe-2 text-light" href="#"
-                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Ngành nghề
-                                </a> --}}
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle w-25 ms-auto pe-2 text-light"
                                 href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ngành nghề
                                 <span class="caret"></span>

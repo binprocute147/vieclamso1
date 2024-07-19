@@ -8,7 +8,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UploadCVController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\JobController;
-use App\Http\Controllers\CVController;
 
 // route logout 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -44,9 +43,8 @@ Route::post('/profile/update', [ProfileController::class, 'update'])->name('prof
 Route::put('/profile/picture/update', [ProfileController::class, 'updateProfilePicture'])
     ->name('profile.picture.update');
 
-// thay đổi mật khẩu
-Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
-
+// route đổi mật khẩu
+Route::post('/changepassword', [ProfileController::class, 'changePassword'])->name('change.password');
 
 //route cv
 Route::middleware(['auth'])->group(function () {

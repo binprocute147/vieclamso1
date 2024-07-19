@@ -186,6 +186,8 @@
                                         <li><a class="dropdown-item" href="{{ url('profileUser') }}"><i
                                                     class="px-1 fa-solid fa-circle-info"></i>Thông tin tài khoản</a>
                                         </li>
+                                        <li><a class="dropdown-item" href="{{url('changepassword')}}"><i class="px-1 fa-solid fa-lock"></i>Đổi
+                                                mật khẩu</a></li>
                                         <li><a class="dropdown-item" href="{{ route('logout') }}"><i
                                                     class="px-1 fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
                                     </ul>
