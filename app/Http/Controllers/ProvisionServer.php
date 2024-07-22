@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProvisionServer extends Controller
 {
-    // hiển thị trang index đầu tiên
+    // Hiển thị trang index đầu tiên hoặc trang khác
     public function page($index = "index")
     {
         if ($index === "index") {

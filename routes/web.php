@@ -8,6 +8,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UploadCVController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ManageUserController;
 
 // route logout 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -21,6 +23,25 @@ Route::get('/search-job', [JobController::class, 'index'])->name('searchjob');
 // route hiển thị job trong view account 
 Route::get('/account', [AccountController::class, 'showJob'])->name('showJob');
 
+// Routes cho admin đã đăng nhập
+Route::middleware(['auth:admin', 'admin'])->group(function () {
+    // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // route hiển thị dữ liệu user cho trang manageUser
+    Route::get('/manageUser', [ManageUserController::class, 'manageUsers'])->name('admin.manageUsers');
+
+    // Route cho tìm kiếm user
+    Route::get('/search-users', [ManageUserController::class, 'searchUsers'])->name('users.search');
+
+    // route thêm user
+    Route::post('/add-user', [ManageUserController::class, 'store'])->name('user.store');
+    // Hiển thị trang chỉnh sửa người dùng
+    Route::get('editUser/{id}', [ManageUserController::class, 'edit'])->name('user.edit');
+    // Xử lý cập nhật người dùng
+    Route::post('updateUser/{id}', [ManageUserController::class, 'update'])->name('user.update');
+
+    // Route cho xóa user
+    Route::delete('/delete-user/{id}', [ManageUserController::class, 'deleteUser'])->name('users.delete');
+});
 
 // route hiển thị trang index khi chạy lên đầu tiên 
 Route::get('/{index?}', [ProvisionServer::class, 'page'])->name('index');

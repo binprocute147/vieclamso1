@@ -30,7 +30,7 @@ class LoginController extends Controller
         // Kiểm tra đăng nhập cho admin
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
-            return view('dashboard');
+            return redirect()->route('dashboard');
         }
 
         return back()->withErrors([
