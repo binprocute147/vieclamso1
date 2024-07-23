@@ -24,7 +24,7 @@ class ManageUserController extends Controller
         $searchTerm = $request->input('search');
         $users = User::where('fullname', 'LIKE', '%' . $searchTerm . '%')
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(5);
 
         if ($users->isEmpty()) {
             return redirect()->route('admin.manageUsers')->with('error', "Không có tên user '$searchTerm'");

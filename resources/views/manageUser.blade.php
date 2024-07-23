@@ -101,8 +101,8 @@
                                     @endif
                                 </tbody>
                             </table>
-                            <div class="row" style="margin-left: 18px;">
-                                {{ $users->links() }}
+                            <div class="row" style="margin-left: 18px; color: red">
+                                {{ $users->links('pagination::bootstrap-4') }}
                             </div>
                         </div>
                     </div>

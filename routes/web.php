@@ -10,6 +10,8 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ManageUserController;
+use App\Http\Controllers\ManageJobController;
+use App\Http\Controllers\JobCategoriesbController;
 
 // route logout 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -26,26 +28,37 @@ Route::get('/account', [AccountController::class, 'showJob'])->name('showJob');
 // Routes cho admin đã đăng nhập
 Route::middleware(['auth:admin', 'admin'])->group(function () {
     // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    // route hiển thị dữ liệu user cho trang manageUser
+
+    // route crub , tìm kiếm user
     Route::get('/manageUser', [ManageUserController::class, 'manageUsers'])->name('admin.manageUsers');
-
-    // Route cho tìm kiếm user
     Route::get('/search-users', [ManageUserController::class, 'searchUsers'])->name('users.search');
-
-    // route thêm user
     Route::post('/add-user', [ManageUserController::class, 'store'])->name('user.store');
-    // Hiển thị trang chỉnh sửa người dùng
     Route::get('editUser/{id}', [ManageUserController::class, 'edit'])->name('user.edit');
-    // Xử lý cập nhật người dùng
     Route::post('updateUser/{id}', [ManageUserController::class, 'update'])->name('user.update');
-
-    // Route cho xóa user
     Route::delete('/delete-user/{id}', [ManageUserController::class, 'deleteUser'])->name('users.delete');
+
+
+    // route crub , tìm kiếm job
+    Route::get('/manageJob', [ManageJobController::class, 'manageJobs'])->name('admin.manageJobs');
+    Route::get('/search-jobs', [ManageJobController::class, 'searchJobs'])->name('jobs.search');
+    Route::get('/addJob', [ManageJobController::class, 'addJob'])->name('addJob');
+    Route::post('/addJob', [ManageJobController::class, 'storeJob'])->name('storeJob');
+    Route::delete('/delete-job/{id}', [ManageJobController::class, 'deleteJob'])->name('jobs.delete');
+    Route::get('editUser/{id}', [ManageJobController::class, 'edit'])->name('job.edit');
+    Route::post('updateUser/{id}', [ManageJobController::class, 'update'])->name('job.update');
+
+
+    // route crub , tìm kiếm categoriesjob
+    Route::get('/manageCategoriesjob', [JobCategoriesbController::class, 'manageJobCategories'])->name('admin.manageJobCategories');
+    Route::get('/search-jobCategories', [JobCategoriesbController::class, 'searchJobCategories'])->name('jobCategories.search');
+    Route::post('/add-jobCategories', [JobCategoriesbController::class, 'store'])->name('jobCategories.store');
+    Route::delete('/delete-jobCategories/{id}', [JobCategoriesbController::class, 'deleteJobCategories'])->name('jobCategories.delete');
+    Route::get('editjobCategories/{id}', [JobCategoriesbController::class, 'edit'])->name('jobCategories.edit');
+    Route::put('updatejobCategories/{id}', [JobCategoriesbController::class, 'update'])->name('jobCategories.update');
 });
 
 // route hiển thị trang index khi chạy lên đầu tiên 
 Route::get('/{index?}', [ProvisionServer::class, 'page'])->name('index');
-
 
 Route::group(['middleware' => 'guest'], function () {
 
