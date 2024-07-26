@@ -1,56 +1,38 @@
 <?php
 
-namespace App\Http\Controllers;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-
-class LoginController extends Controller
+class CreateAdminsTable extends Migration
 {
-    // Hiển thị form đăng nhập
-    public function showLoginForm()
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
     {
-        return view('login');
+        Schema::create('admins', function (Blueprint $table) {
+            $table->id();
+            $table->string('fullname');
+            $table->string('picture')->nullable();
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->string('role');
+            $table->string('phone',10)->nullable();
+            $table->timestamps();
+        });
+
     }
 
-    public function login(Request $request)
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        // Kiểm tra đăng nhập cho user
-        if (Auth::guard('web')->attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('index'));
-        }
-
-        // Kiểm tra đăng nhập cho admin
-        if (Auth::guard('admin')->attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->route('dashboard');
-        }
-
-        return back()->withErrors([
-            'email' => 'Email hoặc mật khẩu không đúng.',
-        ]);
-    }
-
-    // Đăng xuất
-    public function logout(Request $request)
-    {
-        if (Auth::guard('admin')->check()) {
-            Auth::guard('admin')->logout();
-        } else {
-            Auth::guard('web')->logout();
-        }
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect()->route('login');
+        Schema::dropIfExists('admins');
     }
 }

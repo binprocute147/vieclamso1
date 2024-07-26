@@ -36,53 +36,38 @@
                             <div class="d-flex">
                                 <p class="text-light"><i class="color-bg px-2 fa-brands fa-searchengin "></i>Thị trường
                                     việc làm hôm nay:</p>
-                                <p class="color-bg ms-auto pe-2">09/05/2024</p>
+                                <p class="color-bg ms-auto pe-2">{{ $today }}</p>
                             </div>
                             <div class="d-flex">
                                 <p class="text-light px-2">Việc làm đang tuyển</p>
-                                <p class="color-bg pe-2">44.680</p>
+                                <p class="color-bg pe-2">{{ $totalJobs }}</p>
                                 <p class="text-light ms-auto">Việc làm mới hôm nay</p>
-                                <p class="color-bg px-4">3.015</p>
+                                <p class="color-bg px-4">{{ $newJobsToday }}</p>
                             </div>
                             <div class="d-flex">
                                 <p class="text-light"><i class="px-2 color-bg fa-solid fa-chart-simple"></i>Nhu cầu
                                     tuyển dụng theo</p>
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle w-25 ms-auto pe-2 text-light"
-                                href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ngành nghề
-                                <span class="caret"></span>
-                                <ul class="dropdown-menu">
-                                    @foreach ($jobCategories as $category)
-                                        <li><a class="dropdown-item category-filter" href="#"
-                                                data-category-id="{{ $category->id }}">{{ $category->name }}</a></li>
-                                    @endforeach
-                                </ul>
+                                    href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ngành nghề
+                                    <span class="caret"></span>
+                                    <ul class="dropdown-menu">
+                                        @foreach ($jobCategories as $category)
+                                            <li><a class="dropdown-item category-filter" href="#"
+                                                    data-category-id="{{ $category->id }}">{{ $category->name }}</a></li>
+                                        @endforeach
+                                    </ul>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <div class="chart-container">
-                                    <canvas id="chartMarketing"></canvas>
-                                    <div class="chart-label"><span class="chart-color-box"
-                                            style="background-color: #FF6384;"></span>Marketing</div>
-                                </div>
-                                <div class="chart-container">
-                                    <canvas id="chartIT"></canvas>
-                                    <div class="chart-label"><span class="chart-color-box"
-                                            style="background-color: #36A2EB;"></span>IT</div>
-                                </div>
-                                <div class="chart-container">
-                                    <canvas id="chartFinance"></canvas>
-                                    <div class="chart-label"><span class="chart-color-box"
-                                            style="background-color: #FFCE56;"></span>Finance</div>
-                                </div>
-                                <div class="chart-container">
-                                    <canvas id="chartHR"></canvas>
-                                    <div class="chart-label"><span class="chart-color-box"
-                                            style="background-color: #4BC0C0;"></span>HR</div>
-                                </div>
-                                <div class="chart-container">
-                                    <canvas id="chartSales"></canvas>
-                                    <div class="chart-label"><span class="chart-color-box"
-                                            style="background-color: #9966FF;"></span>Sales</div>
-                                </div>
+                                @for ($i = 0; $i < 4; $i++)
+                                    <div class="chart-container">
+                                        <canvas id="chart{{ $i }}"></canvas>
+                                        <div class="chart-label">
+                                            <span class="chart-color-box"
+                                                style="background-color: {{ $chartColors[$i] }};"></span>
+                                            {{ $labels[$i] }}
+                                        </div>
+                                    </div>
+                                @endfor
                             </div>
                         </div>
                     </div>
@@ -883,21 +868,25 @@
     </script>
 
 
-    {{-- js vẽ 2d thống kê công việc --}}
+    {{-- js hiển thị biểu đồ số lượng danh mục công việc --}}
     <script>
-        const chartColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
-
-        const data = [14600, 7531, 5036, 4732, 4380];
-        const labels = ['Marketing', 'IT', 'Finance', 'HR', 'Sales'];
-
-        function createChart(chartId, color, data) {
+        const chartColors = @json($chartColors);
+        const data = @json($data);
+        const labels = @json($labels);
+    
+        function createChart(chartId, color, data, label) {
+            if (!Array.isArray(data) || data.length === 0) {
+                console.error('Invalid data:', data);
+                return;
+            }
+    
             const ctx = document.getElementById(chartId).getContext('2d');
             new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: [''],
+                    labels: [label],
                     datasets: [{
-                        data: [data],
+                        data: data,  
                         backgroundColor: color,
                         borderColor: color,
                         borderWidth: 1
@@ -915,7 +904,7 @@
                         },
                         y: {
                             beginAtZero: true,
-                            max: 14600,
+                            max: Math.max.apply(null, data) * 1.1,
                             ticks: {
                                 display: false
                             },
@@ -927,11 +916,9 @@
                 }
             });
         }
-
-        createChart('chartMarketing', chartColors[0], data[0]);
-        createChart('chartIT', chartColors[1], data[1]);
-        createChart('chartFinance', chartColors[2], data[2]);
-        createChart('chartHR', chartColors[3], data[3]);
-        createChart('chartSales', chartColors[4], data[4]);
-    </script>
+    
+        for (let i = 0; i < 4; i++) {
+            createChart('chart' + i, chartColors[i], [data[i]], labels[i]); 
+        }
+    </script>    
 @endsection

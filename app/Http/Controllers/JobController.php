@@ -22,6 +22,9 @@ class JobController extends Controller
         $companyPage = $request->input('company_page', 1);
         $categoryPage = $request->input('category_page', 1);
 
+        // Lấy ngày hiện tại
+        $today = now()->format('d/m/Y');
+
         // Query các công việc và thêm điều kiện lọc nếu có
         $jobsQuery = Job::query()->orderBy('created_at', 'desc');
         if ($categoryId) {
@@ -35,6 +38,12 @@ class JobController extends Controller
         $jobs = $jobsQuery->paginate($jobsPerPage);
         $currentPage = $request->input('page', 1);
         $totalPages = ceil($jobsQuery->count() / $jobsPerPage);
+
+        // Lấy số lượng việc làm đang tuyển
+        $totalJobs = Job::count();
+
+        // Lấy số lượng việc làm mới trong ngày hiện tại
+        $newJobsToday = Job::whereDate('created_at', today())->count();
 
         // Lấy danh sách các địa điểm duy nhất và phân trang chúng
         $locations = Job::select('location')
@@ -85,9 +94,17 @@ class JobController extends Controller
             ]);
         }
 
-        // Trả về view index với các biến dữ liệu cần thiết
-        return view('index', compact('jobs', 'currentPage', 'totalPages', 'jobCategories', 'locations', 'companies', 'allLocations'));
-    }
+        // Lấy thống kê số lượng công việc cho 4 danh mục hàng đầu
+        $jobStatistics = JobCategories::withCount('jobs')
+            ->orderBy('jobs_count', 'desc')
+            ->take(4)
+            ->get();
 
-    
+        $labels = $jobStatistics->pluck('name')->toArray();
+        $data = $jobStatistics->pluck('jobs_count')->toArray();
+        $chartColors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']; // Đảm bảo có ít nhất 4 màu
+
+        // Trả về view index với các biến dữ liệu cần thiết
+        return view('index', compact('jobs', 'currentPage', 'totalPages', 'jobCategories', 'locations', 'companies', 'allLocations', 'labels', 'data', 'chartColors', 'today', 'totalJobs', 'newJobsToday'));
+    }
 }

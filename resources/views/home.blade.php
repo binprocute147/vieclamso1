@@ -23,6 +23,12 @@
             color: rgb(46 232 0);
         }
 
+        /* Hiển thị dropdown khi hover vào item */
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0;
+        }
+
         .login-btn {
             background-color: rgb(46, 232, 0);
             color: black;
@@ -98,6 +104,36 @@
             background: #005975 !important;
         }
 
+        /* css bong bóng chat */
+        #chatBubble {
+            z-index: 1050;
+        }
+
+        #chatBubble .btn {
+            font-size: 24px;
+        }
+
+        #supportBox {
+            width: 350px;
+            transition: opacity 0.3s ease;
+            
+        }
+
+        #supportBox.show {
+            display: block;
+        }
+
+        #supportBox a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        #supportBox a:hover {
+            text-decoration: underline;
+        }
+
+
+
         /* Additional CSS for centering menu items on mobile */
         @media (max-width: 991px) {
             .navbar-nav {
@@ -132,8 +168,19 @@
                         <li class="nav-item ps-3">
                             <a class="nav-link" aria-current="page" href="{{ url('/') }}">Việc làm</a>
                         </li>
-                        <li class="nav-item ps-3">
-                            <a class="nav-link" href="#">Hồ sơ & CV</a>
+                        <li class="nav-item ps-3 dropdown">
+                            <a id="navbarDropdown" class="nav-link @auth dropdown-toggle @endauth" href="#"
+                                role="button" @auth data-bs-toggle="dropdown" @endauth aria-expanded="false">
+                                Hồ sơ & CV
+                            </a>
+                            @auth
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{ url('account') }}"><i
+                                                class="px-1 fa-solid fa-id-badge"></i>Quản lý CV</a></li>
+                                    <li><a class="dropdown-item" href="{{ url('uploadcv') }}"><i
+                                                class="px-1 fa-solid fa-upload"></i>Upload CV</a></li>
+                                </ul>
+                            @endauth
                         </li>
                         <li class="nav-item ps-3">
                             <a class="nav-link" href="#">Công ty</a>
@@ -150,10 +197,17 @@
                                     Đăng tuyển ngay
                                 </a>
                             </li>
-                            <li class="nav-item px-2">
-                                <a class="nav-link" href="#">
+                            <li class="nav-item dropdown px-2">
+                                <a class="nav-link" href="#" id="notificationDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     <h4><i class="color-bg fa-regular fa-bell"></i></h4>
                                 </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                                    <li class="dropdown-item text-center">
+                                        <h1 class="py-3"><i class="color-bg fa-regular fa-bell-slash"></i></h1>
+                                        <span class="ms-2">Bạn chưa có thông báo nào</span>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">
@@ -186,7 +240,12 @@
                                         <li><a class="dropdown-item" href="{{ url('profileUser') }}"><i
                                                     class="px-1 fa-solid fa-circle-info"></i>Thông tin tài khoản</a>
                                         </li>
-                                        <li><a class="dropdown-item" href="{{url('changepassword')}}"><i class="px-1 fa-solid fa-lock"></i>Đổi
+                                        <li><a class="dropdown-item" href="{{ url('recruiterViewProfile') }}"><i
+                                                    class="px-1 fa-solid fa-eye"></i>Nhà tuyển dụng xem hồ sơ</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('securitySettings') }}"><i
+                                                    class="px-1 fa-solid fa-shield-halved"></i>Cài đặt bảo mật</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('changepassword') }}"><i
+                                                    class="px-1 fa-solid fa-lock"></i>Đổi
                                                 mật khẩu</a></li>
                                         <li><a class="dropdown-item" href="{{ route('logout') }}"><i
                                                     class="px-1 fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
@@ -260,6 +319,27 @@
             </div>
         </div>
     </div>
+    <!-- Bong bóng chat -->
+    <div id="chatBubble" class="position-fixed bottom-0 end-0 mb-4 me-4">
+        <button id="chatButton" class="btn btn-success rounded-circle p-3">
+            <i class="fa-solid fa-headset"></i> 
+        </button>
+        <!-- Bảng thông tin hỗ trợ -->
+        <div id="supportBox"
+            class="d-none position-absolute bottom-100 end-0 mb-2 me-3 bg-light border rounded shadow-sm p-3">
+            <div class="py-5 bg-success text-light rounded">
+                <h5 class="mb-3"><i class="fa-solid fa-headset"></i> Trung tâm hỗ trợ ứng viên</h5>
+            </div>
+            <ul class="list-unstyled py-2">
+                <li><i class="fa fa-briefcase px-2" aria-hidden="true"></i><a href="#" class="text-dark">Hướng dẫn tìm việc an toàn</a></li>
+                <li><i class="fa-solid fa-user px-2"></i><a href="#" class="text-dark">Hướng dẫn quản lý tài khoản</a></li>
+                <li><i class="fa-solid fa-comments px-2"></i><a href="#" class="text-dark">Các câu hỏi thường gặp</a></li>
+                <li><i class="fa-solid fa-message px-2"></i><a href="#" class="text-dark">Yêu cầu hỗ trợ</a></li>
+                <li><i class="fa-solid fa-phone px-2"></i><a href="#" class="text-dark">liên hệ vieclamso1</a></li>
+            </ul>
+        </div>
+    </div>
+
     {{-- footer --}}
     <footer>
         <div class="container pt-4">
@@ -409,6 +489,30 @@
     <script src="https://kit.fontawesome.com/f6dce9b617.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatButton = document.getElementById('chatButton');
+            const supportBox = document.getElementById('supportBox');
+
+            chatButton.addEventListener('click', function() {
+                if (supportBox.classList.contains('d-none')) {
+                    supportBox.classList.remove('d-none');
+                    supportBox.classList.add('show');
+                } else {
+                    supportBox.classList.add('d-none');
+                    supportBox.classList.remove('show');
+                }
+            });
+
+            // Click bên ngoài để đóng bảng thông tin
+            document.addEventListener('click', function(event) {
+                if (!chatButton.contains(event.target) && !supportBox.contains(event.target)) {
+                    supportBox.classList.add('d-none');
+                    supportBox.classList.remove('show');
+                }
+            });
+        });
     </script>
 
 </body>

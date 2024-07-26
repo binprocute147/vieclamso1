@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -24,13 +23,19 @@ class LoginController extends Controller
         // Kiểm tra đăng nhập cho user
         if (Auth::guard('web')->attempt($credentials)) {
             $request->session()->regenerate();
+            $user = Auth::guard('web')->user();
+            if ($user) {
+                $user->is_online = true;
+                $user->save();
+            }
+
             return redirect()->intended(route('index'));
         }
 
         // Kiểm tra đăng nhập cho admin
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
-            return view('dashboard');
+            return redirect()->route('dashboard');
         }
 
         return back()->withErrors([
@@ -41,14 +46,21 @@ class LoginController extends Controller
     // Đăng xuất
     public function logout(Request $request)
     {
+        // Kiểm tra và cập nhật trạng thái online trước khi đăng xuất
         if (Auth::guard('admin')->check()) {
             Auth::guard('admin')->logout();
-        } else {
+        } else if (Auth::guard('web')->check()) {
+            $user = Auth::guard('web')->user();
             Auth::guard('web')->logout();
+
+            // Cập nhật trạng thái offline nếu có người dùng
+            if ($user) {
+                $user->is_online = false;
+                $user->save();
+            }
         }
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect()->route('login');
