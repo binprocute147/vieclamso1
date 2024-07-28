@@ -14,6 +14,7 @@ use App\Http\Controllers\ManageJobController;
 use App\Http\Controllers\JobCategoriesbController;
 use App\Http\Controllers\JobsThatAreRightForYouController;
 use App\Http\Controllers\RecruiterViewProfileController;
+use App\Http\Controllers\ProfileAdminController;
 
 // route logout 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -61,6 +62,11 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
     Route::delete('/delete-jobCategories/{id}', [JobCategoriesbController::class, 'deleteJobCategories'])->name('jobCategories.delete');
     Route::get('editjobCategories/{id}', [JobCategoriesbController::class, 'edit'])->name('jobCategories.edit');
     Route::put('updatejobCategories/{id}', [JobCategoriesbController::class, 'update'])->name('jobCategories.update');
+
+    // route profileAdmin
+    Route::get('/profileAdmin', [ProfileAdminController::class, 'profile'])->name('admin.profile');
+    Route::post('/profileAdmin/update', [ProfileAdminController::class, 'updateProfile'])->name('admin.updateProfile');
+    Route::post('/profileAdmin/update-password', [ProfileAdminController::class, 'updatePassword'])->name('admin.updatePassword');
 });
 
 // route hiển thị trang index khi chạy lên đầu tiên 

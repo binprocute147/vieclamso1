@@ -15,7 +15,7 @@ class AdminSeeder extends Seeder
         DB::table('admins')->insert([
             [
                 'fullname' => 'Nguyễn Tấn Bin',
-                'picture' => 'admin.png',
+                'picture' => 'admin.jpg',
                 'email' => 'admin@gmail.com',
                 'password' => Hash::make('123'),
                 'role' => 'admin',

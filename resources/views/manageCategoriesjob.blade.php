@@ -13,7 +13,7 @@
             <div id="breadcrumb"> <a href="{{ url('/dashboard') }}" title="Go to Home" class="tip-bottom current"><i
                         class="icon-home"></i>
                     Home</a></div>
-            <h1>Manage jobcategories</h1>
+            <h1>Manage JobCategories</h1>
         </div>
         <div class="container-fluid">
             {{-- hiển thị thông báo thành công hoặc thất bại --}}
@@ -33,7 +33,7 @@
                     <div class="widget-box">
                         <div class="widget-title"> <span class="icon"><a href="{{asset('addCategoriesjob')}}"> <i class="icon-plus"></i>
                                 </a></span>
-                            <h5>Add</h5>
+                            <h5>Add JobCategories</h5>
                         </div>
                         <div class="widget-content nopadding">
                             <table class="table table-bordered table-striped">

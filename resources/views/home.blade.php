@@ -235,10 +235,8 @@
                                         {{ auth()->user()->fullname ?? auth()->user()->email }}
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="{{ url('account') }}"><i
-                                                    class="px-1 fa-solid fa-user"></i>Cài đặt tài khoản</a></li>
                                         <li><a class="dropdown-item" href="{{ url('profileUser') }}"><i
-                                                    class="px-1 fa-solid fa-circle-info"></i>Thông tin tài khoản</a>
+                                                    class="px-1 fa-solid fa-circle-info"></i>Cài đặt thông tin cá nhân</a>
                                         </li>
                                         <li><a class="dropdown-item" href="{{ url('recruiterViewProfile') }}"><i
                                                     class="px-1 fa-solid fa-eye"></i>Nhà tuyển dụng xem hồ sơ</a></li>
