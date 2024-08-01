@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('job_categories', function (Blueprint $table) {
+        Schema::create('cv_templates', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('jobcategories_image'); 
+            $table->string('name'); // Tên mẫu CV
+            $table->text('template_content'); // Nội dung mẫu CV (hoặc JSON/XML, tùy chọn)
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('job_categories');
+        Schema::dropIfExists('cv_templates');
     }
 };

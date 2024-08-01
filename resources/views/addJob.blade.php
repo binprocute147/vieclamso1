@@ -1,4 +1,5 @@
 @extends('layout-admin')
+
 <style>
     .is-invalid {
         border-color: #dc3545 !important;
@@ -9,6 +10,7 @@
         display: block !important;
     }
 </style>
+
 @section('content-admin')
     <!-- BEGIN CONTENT -->
     <div id="content">
@@ -18,7 +20,7 @@
                     <i class="icon-home"></i> Home
                 </a>
             </div>
-            <h1>Add Job</h1>
+            <h1>Thêm Công Việc</h1>
             @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -166,6 +168,51 @@
                                         <input type="text" class="span11 @error('experience') is-invalid @enderror"
                                             placeholder="Experience" name="experience" value="{{ old('experience') }}" />
                                         @error('experience')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">Quantity :</label>
+                                    <div class="controls">
+                                        <input type="number" class="span11 @error('quantity') is-invalid @enderror"
+                                            placeholder="Số Lượng" name="quantity" value="{{ old('quantity') }}" min="1"/>
+                                        @error('quantity')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">Gender :</label>
+                                    <div class="controls">
+                                        <select name="gender"
+                                            class="span11 @error('gender') is-invalid @enderror">
+                                            <option value="">Select gender</option>
+                                            <option value="Nam" {{ old('gender') == 'Nam' ? 'selected' : '' }}>Nam</option>
+                                            <option value="Nữ" {{ old('gender') == 'Nữ' ? 'selected' : '' }}>Nữ</option>
+                                            <option value="Khác" {{ old('gender') == 'Khác' ? 'selected' : '' }}>Giới tính khác</option>
+                                            <option value="Không yêu cầu" {{ old('gender') == 'Không yêu cầu' ? 'selected' : '' }}>Không yêu cầu</option>
+                                        </select>
+                                        @error('gender')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">Job type :</label>
+                                    <div class="controls">
+                                        <input type="text" class="span11 @error('job_type') is-invalid @enderror"
+                                            placeholder="Loại Công Việc" name="job_type" value="{{ old('job_type') }}" />
+                                        @error('job_type')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>

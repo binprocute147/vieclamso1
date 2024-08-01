@@ -145,12 +145,10 @@
                                                     alt="{{ $job->company_name }}"></a>
                                         </div>
                                         <div class="col-12 col-md-8 ps-3">
-                                            <a class="text-decoration-none text-dark" href="#">
+                                            <a class="text-decoration-none text-dark" href="{{ url('/jobDetails/' . $job->slug) }}">
                                                 <h6 class="pt-3"><strong>{{ $job->name_job }}</strong></h6>
                                             </a>
-                                            <a class="text-decoration-none text-dark" href="#">
-                                                <p>{{ $job->company_name }}</p>
-                                            </a>
+                                            <p>{{ $job->company_name }}</p>
                                             <div class="d-flex">
                                                 <p class="p-1 rounded content">{{ $job->min_salary }} -
                                                     {{ $job->max_salary }} đ</p>
@@ -444,7 +442,7 @@
                                                 alt="${job.company_name}"></a>
                                     </div>
                                     <div class="col-12 col-md-8 ps-3">
-                                        <a class="text-decoration-none text-dark" href="#">
+                                        <a class="text-decoration-none text-dark" href="{{ url('/jobDetails/${job.slug}') }}">
                                             <h6 class="pt-3"><strong>${job.name_job}</strong></h6>
                                         </a>
                                             <p>${job.company_name}</p>
@@ -698,7 +696,7 @@
                                                             alt="${job.company_name}"></a>
                                                 </div>
                                                 <div class="col-12 col-md-8 ps-3">
-                                                    <a class="text-decoration-none text-dark" href="#">
+                                                    <a class="text-decoration-none text-dark" href="{{ url('/jobDetails/${job.slug}') }}">
                                                         <h6 class="pt-3"><strong>${job.name_job}</strong></h6>
                                                     </a>
                                                         <p>${job.company_name}</p>
@@ -829,7 +827,7 @@
                                                                 alt="${job.company_name}"></a>
                                                     </div>
                                                     <div class="col-12 col-md-8 ps-3">
-                                                        <a class="text-decoration-none text-dark" href="#">
+                                                        <a class="text-decoration-none text-dark" href="{{ url('/jobDetails/${job.slug}') }}">
                                                             <h6 class="pt-3"><strong>${job.name_job}</strong></h6>
                                                         </a>
                                                             <p>${job.company_name}</p>
@@ -873,20 +871,20 @@
         const chartColors = @json($chartColors);
         const data = @json($data);
         const labels = @json($labels);
-    
+
         function createChart(chartId, color, data, label) {
             if (!Array.isArray(data) || data.length === 0) {
                 console.error('Invalid data:', data);
                 return;
             }
-    
+
             const ctx = document.getElementById(chartId).getContext('2d');
             new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: [label],
                     datasets: [{
-                        data: data,  
+                        data: data,
                         backgroundColor: color,
                         borderColor: color,
                         borderWidth: 1
@@ -916,9 +914,9 @@
                 }
             });
         }
-    
+
         for (let i = 0; i < 4; i++) {
-            createChart('chart' + i, chartColors[i], [data[i]], labels[i]); 
+            createChart('chart' + i, chartColors[i], [data[i]], labels[i]);
         }
-    </script>    
+    </script>
 @endsection

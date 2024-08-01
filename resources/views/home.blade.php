@@ -116,7 +116,7 @@
         #supportBox {
             width: 350px;
             transition: opacity 0.3s ease;
-            
+
         }
 
         #supportBox.show {
@@ -240,6 +240,8 @@
                                         </li>
                                         <li><a class="dropdown-item" href="{{ url('recruiterViewProfile') }}"><i
                                                     class="px-1 fa-solid fa-eye"></i>Nhà tuyển dụng xem hồ sơ</a></li>
+                                        <li><a class="dropdown-item" href="{{ url('emailReceivingSettings') }}"><i
+                                                    class="px-1 fa-solid fa-envelope"></i>Cài đặt nhận email</a></li>
                                         <li><a class="dropdown-item" href="{{ url('securitySettings') }}"><i
                                                     class="px-1 fa-solid fa-shield-halved"></i>Cài đặt bảo mật</a></li>
                                         <li><a class="dropdown-item" href="{{ url('changepassword') }}"><i
@@ -320,7 +322,7 @@
     <!-- Bong bóng chat -->
     <div id="chatBubble" class="position-fixed bottom-0 end-0 mb-4 me-4">
         <button id="chatButton" class="btn btn-success rounded-circle p-3">
-            <i class="fa-solid fa-headset"></i> 
+            <i class="fa-solid fa-headset"></i>
         </button>
         <!-- Bảng thông tin hỗ trợ -->
         <div id="supportBox"
@@ -329,11 +331,16 @@
                 <h5 class="mb-3"><i class="fa-solid fa-headset"></i> Trung tâm hỗ trợ ứng viên</h5>
             </div>
             <ul class="list-unstyled py-2">
-                <li><i class="fa fa-briefcase px-2" aria-hidden="true"></i><a href="#" class="text-dark">Hướng dẫn tìm việc an toàn</a></li>
-                <li><i class="fa-solid fa-user px-2"></i><a href="#" class="text-dark">Hướng dẫn quản lý tài khoản</a></li>
-                <li><i class="fa-solid fa-comments px-2"></i><a href="#" class="text-dark">Các câu hỏi thường gặp</a></li>
-                <li><i class="fa-solid fa-message px-2"></i><a href="#" class="text-dark">Yêu cầu hỗ trợ</a></li>
-                <li><i class="fa-solid fa-phone px-2"></i><a href="#" class="text-dark">liên hệ vieclamso1</a></li>
+                <li><i class="fa fa-briefcase px-2" aria-hidden="true"></i><a href="#" class="text-dark">Hướng
+                        dẫn tìm việc an toàn</a></li>
+                <li><i class="fa-solid fa-user px-2"></i><a href="#" class="text-dark">Hướng dẫn quản lý tài
+                        khoản</a></li>
+                <li><i class="fa-solid fa-comments px-2"></i><a href="#" class="text-dark">Các câu hỏi thường
+                        gặp</a></li>
+                <li><i class="fa-solid fa-message px-2"></i><a href="#" class="text-dark">Yêu cầu hỗ trợ</a>
+                </li>
+                <li><i class="fa-solid fa-phone px-2"></i><a href="#" class="text-dark">liên hệ vieclamso1</a>
+                </li>
             </ul>
         </div>
     </div>

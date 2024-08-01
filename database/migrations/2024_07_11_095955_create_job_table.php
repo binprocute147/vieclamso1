@@ -22,8 +22,12 @@ return new class extends Migration
             $table->string('location'); // vị trí
             $table->string('address'); // địa chỉ 
             $table->string('experience')->nullable(); // kinh nghiệm 
+            $table->integer('quantity'); // số lượng
+            $table->string('gender')->nullable(); // giới tính
+            $table->string('job_type'); // hình thức làm việc
             $table->string('company_image')->nullable(); // ảnh công ty
             $table->unsignedBigInteger('job_category_id'); // khóa ngoại liên kết với bảng job_categories
+            $table->string('slug')->unique();
             $table->timestamps();
 
         });
@@ -36,6 +40,7 @@ return new class extends Migration
     {
         Schema::table('jobs', function (Blueprint $table) {
             $table->dropForeign(['job_category_id']);
+            $table->dropColumn('slug'); // xóa cột slug nếu rollback
         });
         Schema::dropIfExists('jobs');
     }

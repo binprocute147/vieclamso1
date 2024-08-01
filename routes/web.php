@@ -15,6 +15,8 @@ use App\Http\Controllers\JobCategoriesbController;
 use App\Http\Controllers\JobsThatAreRightForYouController;
 use App\Http\Controllers\RecruiterViewProfileController;
 use App\Http\Controllers\ProfileAdminController;
+use App\Http\Controllers\JobDetailsController;
+use App\Http\Controllers\CvTemplateController;
 
 // route logout 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -27,8 +29,21 @@ Route::get('/search-job', [JobController::class, 'index'])->name('searchjob');
 
 // route hiển thị job trong view account 
 Route::get('/account', [AccountController::class, 'showAccount'])->name('showAccount');
+
+// route hiển thị job trong view recruiterViewProfile 
 Route::get('/recruiterViewProfile', [RecruiterViewProfileController::class, 'showRecruiterViewProfile'])->name('showRecruiterViewProfile');
+
+// route hiển thị job trong view jobsThatAreRightForYou 
 Route::get('/jobsThatAreRightForYou', [JobsThatAreRightForYouController::class, 'showJob'])->name('showJob');
+
+// route hiển thị chi tiết công việc khi click vào tên các công việc phù hợp
+Route::get('/jobDetails/{slug}', [JobsThatAreRightForYouController::class, 'showJobDetail']);
+
+// route hiển thị chi tiết công việc 
+Route::get('/jobDetails/{slug}', [JobDetailsController::class, 'showJobDetail']);
+
+// route hiển thị job trong view JobDetailsController 
+Route::get('/jobDetails', [JobDetailsController::class, 'showViewJobDetail'])->name('showJobDetail');
 
 // Routes cho admin đã đăng nhập
 Route::middleware(['auth:admin', 'admin'])->group(function () {
@@ -69,10 +84,12 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
     Route::post('/profileAdmin/update-password', [ProfileAdminController::class, 'updatePassword'])->name('admin.updatePassword');
 });
 
+// route cv 
+Route::get('/templatesCv', [CvTemplateController::class, 'showTemplates'])->name('cv.templates');
+Route::get('/create-from-template/{templateName}', [CvTemplateController::class, 'createCvFromTemplate'])->name('cv.createFromTemplate');
+
 // route hiển thị trang index khi chạy lên đầu tiên 
 Route::get('/{index?}', [ProvisionServer::class, 'page'])->name('index');
-
-
 
 Route::group(['middleware' => 'guest'], function () {
 
@@ -101,3 +118,4 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cv/update', [UploadCVController::class, 'update'])->name('cv.update');
     Route::delete('/cv/destroy', [UploadCVController::class, 'destroy'])->name('cv.destroy');
 });
+

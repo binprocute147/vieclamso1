@@ -42,7 +42,6 @@ class ManageJobController extends Controller
 
     public function storeJob(Request $request)
     {
-        // Xác định các luật kiểm tra
         $rules = [
             'name_job' => 'required|string|max:255',
             'description' => 'required|string',
@@ -55,19 +54,24 @@ class ManageJobController extends Controller
             'address' => 'required|string|max:255',
             'experience' => 'nullable|string|max:255',
             'company_image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'quantity' => 'required|integer|min:1',
+            'gender' => 'nullable|in:Nam,Nữ,Khác,Không yêu cầu',
+            'job_type' => 'required|string|max:255',
         ];
 
-        // Tùy chỉnh thông báo lỗi
         $messages = [
             'max_salary.gt' => 'Mức lương tối đa phải lớn hơn mức lương tối thiểu.',
             'image.image' => 'Ảnh hồ sơ phải là một định dạng ảnh jpeg, png, jpg',
             'image.mimes' => 'Ảnh hồ sơ chỉ hỗ trợ định dạng jpeg, png, jpg.',
+            'quantity.required' => 'Số lượng là bắt buộc.',
+            'quantity.integer' => 'Số lượng phải là một số nguyên.',
+            'quantity.min' => 'Số lượng phải lớn hơn 0.',
+            'gender.in' => 'Giới tính phải là một trong các giá trị: Nam, Nữ, Giới tính khác hoặc không yêu cầu.',
+            'job_type.required' => 'Hình thức làm việc là bắt buộc.',
         ];
 
-        // Kiểm tra dữ liệu đầu vào
         $validator = Validator::make($request->all(), $rules, $messages);
 
-        // Nếu kiểm tra thất bại, quay lại trang trước với thông báo lỗi
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
@@ -86,20 +90,19 @@ class ManageJobController extends Controller
             $job->location = $request->input('location');
             $job->address = $request->input('address');
             $job->experience = $request->input('experience');
+            $job->quantity = $request->input('quantity');
+            $job->gender = $request->input('gender');
+            $job->job_type = $request->input('job_type');
 
             if ($request->hasFile('company_image')) {
                 $file = $request->file('company_image');
                 $extension = $file->getClientOriginalExtension();
                 $filename = time() . '.' . $extension;
-
                 $job->company_image = $filename;
+                $file->move('images/company_image/', $filename);
             }
 
             $job->save();
-
-            if ($request->hasFile('company_image')) {
-                $file->move('images/company_image/', $filename);
-            }
 
             return redirect()->back()->with(['success' => 'Thêm công việc thành công']);
         } catch (\Exception $e) {
@@ -107,17 +110,17 @@ class ManageJobController extends Controller
         }
     }
 
-    // edit job
+    // Edit job
     public function edit($id)
     {
         $job = Job::findOrFail($id);
-        $categoriesJob = JobCategories::all(); 
+        $categoriesJob = JobCategories::all();
         return view('editJob', compact('job', 'categoriesJob'));
     }
 
+    // Update job
     public function update(Request $request, $id)
     {
-        // Định nghĩa quy tắc xác thực
         $rules = [
             'name_job' => 'required|string|max:255',
             'description' => 'required|string',
@@ -125,14 +128,16 @@ class ManageJobController extends Controller
             'job_category_id' => 'required|exists:job_categories,id',
             'requirements' => 'required|string',
             'min_salary' => 'nullable|numeric|min:0',
-            'max_salary' => 'nullable|numeric|min:0',
+            'max_salary' => 'nullable|numeric|gt:min_salary',
             'location' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'experience' => 'nullable|string',
             'company_image' => 'nullable|image|mimes:jpeg,png,jpg|max:4120',
+            'quantity' => 'required|integer|min:1',
+            'gender' => 'nullable|string|max:255',
+            'job_type' => 'required|string|max:255',
         ];
 
-        // Thông báo lỗi
         $messages = [
             'name_job.required' => 'Tên công việc là bắt buộc.',
             'description.required' => 'Mô tả công việc là bắt buộc.',
@@ -147,9 +152,12 @@ class ManageJobController extends Controller
             'company_image.image' => 'Ảnh công ty phải là một định dạng ảnh jpeg, png, jpg.',
             'company_image.mimes' => 'Ảnh công ty chỉ hỗ trợ định dạng jpeg, png, jpg.',
             'company_image.max' => 'Ảnh công ty không được lớn hơn 4MB.',
+            'quantity.required' => 'Số lượng là bắt buộc.',
+            'quantity.integer' => 'Số lượng phải là một số nguyên.',
+            'quantity.min' => 'Số lượng phải lớn hơn 0.',
+            'job_type.required' => 'Hình thức làm việc là bắt buộc.',
         ];
 
-        // Xác thực dữ liệu
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
@@ -168,8 +176,10 @@ class ManageJobController extends Controller
             $job->location = $request->input('location');
             $job->address = $request->input('address');
             $job->experience = $request->input('experience');
+            $job->quantity = $request->input('quantity');
+            $job->gender = $request->input('gender');
+            $job->job_type = $request->input('job_type');
 
-            // Xử lý ảnh công ty
             if ($request->hasFile('company_image')) {
                 // Xóa ảnh cũ
                 if ($job->company_image) {
@@ -194,7 +204,6 @@ class ManageJobController extends Controller
             return redirect()->back()->with(['error' => 'Cập nhật dữ liệu công việc không thành công: ' . $e->getMessage()]);
         }
     }
-
 
     // xóa job
     public function deleteJob($id)

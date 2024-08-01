@@ -29,6 +29,9 @@ class JobSeeder extends Seeder
                 'experience' => '2 năm',
                 'company_image' => 'logofpt.jpg',
                 'job_category_id' => $categories[0]->id,
+                'quantity' => 5,
+                'gender' => 'Không yêu cầu',
+                'job_type' => 'Toàn thời gian',
                 'created_at' => now(),
             ],
             [
@@ -43,6 +46,9 @@ class JobSeeder extends Seeder
                 'experience' => '3 năm',
                 'company_image' => 'hoangtruongthinhfpt.jpg',
                 'job_category_id' => $categories[0]->id,
+                'quantity' => 3,
+                'gender' => 'Nam',
+                'job_type' => 'Toàn thời gian',
                 'created_at' => now(),
             ],
             [
@@ -57,6 +63,9 @@ class JobSeeder extends Seeder
                 'experience' => '1 năm',
                 'company_image' => 'thanhconglogo.png',
                 'job_category_id' => $categories[1]->id,
+                'quantity' => 4,
+                'gender' => 'Nữ',
+                'job_type' => 'Bán thời gian',
                 'created_at' => now(),
             ],
             [
@@ -71,6 +80,9 @@ class JobSeeder extends Seeder
                 'experience' => '2 năm',
                 'company_image' => 'vinamilklogo.jpg',
                 'job_category_id' => $categories[1]->id,
+                'quantity' => 2,
+                'gender' => 'Không yêu cầu',
+                'job_type' => 'Toàn thời gian',
                 'created_at' => now(),
             ],
             [
@@ -85,6 +97,9 @@ class JobSeeder extends Seeder
                 'experience' => '5 năm',
                 'company_image' => 'evnnpclogo.jpg',
                 'job_category_id' => $categories[2]->id,
+                'quantity' => 1,
+                'gender' => 'Không yêu cầu',
+                'job_type' => 'Toàn thời gian',
                 'created_at' => now(),
             ],
             [
@@ -99,6 +114,9 @@ class JobSeeder extends Seeder
                 'experience' => '5 năm',
                 'company_image' => 'hungthinhlogo.jpg',
                 'job_category_id' => $categories[2]->id,
+                'quantity' => 1,
+                'gender' => 'Không yêu cầu',
+                'job_type' => 'Toàn thời gian',
                 'created_at' => now(),
             ],
             [
@@ -113,6 +131,9 @@ class JobSeeder extends Seeder
                 'experience' => '2 năm',
                 'company_image' => 'hoanggialogo.jpg',
                 'job_category_id' => $categories[3]->id,
+                'quantity' => 2,
+                'gender' => 'Không yêu cầu',
+                'job_type' => 'Bán thời gian',
                 'created_at' => now(),
             ],
             [
@@ -127,6 +148,9 @@ class JobSeeder extends Seeder
                 'experience' => '3 năm',
                 'company_image' => 'phuctealogo.png',
                 'job_category_id' => $categories[3]->id,
+                'quantity' => 1,
+                'gender' => 'Không yêu cầu',
+                'job_type' => 'Toàn thời gian',
                 'created_at' => now(),
             ],
             [
@@ -141,6 +165,9 @@ class JobSeeder extends Seeder
                 'experience' => '2 năm',
                 'company_image' => 'nakaumivietnamlogo.jpg',
                 'job_category_id' => $categories[4]->id,
+                'quantity' => 3,
+                'gender' => 'Không yêu cầu',
+                'job_type' => 'Toàn thời gian',
                 'created_at' => now(),
             ],
             [
@@ -155,8 +182,11 @@ class JobSeeder extends Seeder
                 'experience' => '3 năm',
                 'company_image' => 'smilegalaxy.png',
                 'job_category_id' => $categories[4]->id,
+                'quantity' => 1,
+                'gender' => 'Không yêu cầu',
+                'job_type' => 'Toàn thời gian',
                 'created_at' => now(),
-            ],
+            ]
         ];
 
         foreach ($jobs as $job) {

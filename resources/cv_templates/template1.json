@@ -1,0 +1,81 @@
+{
+    "template_name": "Mẫu CV Truyền Thống",
+    "sections": [
+      {
+        "title": "Thông Tin Cá Nhân",
+        "fields": [
+          { "label": "Họ và tên", "key": "full_name" },
+          { "label": "Email", "key": "email" },
+          { "label": "Số điện thoại", "key": "phone_number" },
+          { "label": "Địa chỉ", "key": "address" }
+        ]
+      },
+      {
+        "title": "Vị trí ứng tuyển",
+        "fields": [
+          { "label": "Vị trí ứng tuyển", "key": "position_applied" }
+        ]
+      },
+      {
+        "title": "Mục tiêu nghề nghiệp",
+        "fields": [
+          { "label": "Mục tiêu nghề nghiệp", "key": "career_goals" }
+        ]
+      },
+      {
+        "title": "Kinh nghiệm làm việc",
+        "fields": [
+          { "label": "Kinh nghiệm làm việc", "key": "work_experience" }
+        ]
+      },
+      {
+        "title": "Trình độ học vấn",
+        "fields": [
+          { "label": "Trình độ học vấn", "key": "education" }
+        ]
+      },
+      {
+        "title": "Dự án",
+        "fields": [
+          { "label": "Dự án", "key": "projects" }
+        ]
+      },
+      {
+        "title": "Kỹ năng",
+        "fields": [
+          { "label": "Kỹ năng", "key": "skills" }
+        ]
+      },
+      {
+        "title": "Sở thích",
+        "fields": [
+          { "label": "Sở thích", "key": "interests" }
+        ]
+      },
+      {
+        "title": "Hoạt động",
+        "fields": [
+          { "label": "Hoạt động", "key": "activities" }
+        ]
+      },
+      {
+        "title": "Người giới thiệu",
+        "fields": [
+          { "label": "Người giới thiệu", "key": "referrals" }
+        ]
+      },
+      {
+        "title": "Danh hiệu và giải thưởng",
+        "fields": [
+          { "label": "Danh hiệu và giải thưởng", "key": "awards" }
+        ]
+      },
+      {
+        "title": "Chứng chỉ",
+        "fields": [
+          { "label": "Chứng chỉ", "key": "certifications" }
+        ]
+      }
+    ]
+  }
+  

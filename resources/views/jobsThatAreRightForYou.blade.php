@@ -20,8 +20,9 @@
                                     </div>
                                     <div class="col-12 col-md-10 ps-3">
                                         <div class="d-flex">
-                                            <h6 class="pt-3"><strong>{{ $job->name_job }}</strong>
-                                            </h6>
+                                            <a class="text-decoration-none text-dark" href="{{ url('/jobDetails/' . $job->slug) }}">
+                                                <h6 class="pt-3"><strong>{{ $job->name_job }}</strong> </h6>
+                                            </a>
                                             <p class="p-1 rounded ms-auto color-bg">
                                                 {{ $job->min_salary }} -
                                                 {{ $job->max_salary }} đ</p>
@@ -90,7 +91,9 @@
                                 </div>
                                 <div class="col-12 col-md-10 ps-3">
                                     <div class="d-flex">
+                                        <a class="text-decoration-none text-dark" href="{{ url('/jobDetails/${job.slug}') }}">
                                         <h6 class="pt-3"><strong>${job.name_job}</strong></h6>
+                                        </a>
                                         <p class="p-1 rounded ms-auto color-bg">${job.min_salary} - ${job.max_salary} đ</p>
                                     </div>
                                     <p><strong>${job.company_name}</strong></p>

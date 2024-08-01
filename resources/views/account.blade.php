@@ -33,7 +33,7 @@
                                 <div class="ps-3 d-flex pt-2">
                                     <h2> CV đã tạo trên Vieclamso1</h2>
                                     <a class="rounded-pill px-3 py-2 ms-auto text-decoration-none text-light btn-content"
-                                        href="#"><i class="fa-solid text-light px-2 fa-plus"></i>Tạo
+                                        href="{{ url('templatesCv') }}"><i class="fa-solid text-light px-2 fa-plus"></i>Tạo
                                         mới</a>
                                 </div>
                                 <div class="text-center">

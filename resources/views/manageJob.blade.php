@@ -52,6 +52,9 @@
                                         <th>Location</th>
                                         <th>Address</th>
                                         <th>Experience</th>
+                                        <th>Quantity</th>
+                                        <th>Gender</th>
+                                        <th>Job type</th>
                                         <th>Created at</th>
                                         <th>Action</th>
                                     </tr>
@@ -85,6 +88,9 @@
                                                 <td>{{ $job->location }}</td>
                                                 <td>{{ $job->address }}</td>
                                                 <td>{{ $job->experience }}</td>
+                                                <td>{{ $job->quantity }}</td>
+                                                <td>{{ $job->gender }}</td>
+                                                <td>{{ $job->job_type }}</td>
                                                 <td>{{ $job->created_at }}</td>
                                                 <td>
                                                     <a href='{{ route('job.edit', $job->id) }}'
