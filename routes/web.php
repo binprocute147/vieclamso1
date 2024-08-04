@@ -17,6 +17,7 @@ use App\Http\Controllers\RecruiterViewProfileController;
 use App\Http\Controllers\ProfileAdminController;
 use App\Http\Controllers\JobDetailsController;
 use App\Http\Controllers\CvTemplateController;
+use App\Http\Controllers\CvController;
 
 // route logout 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -88,6 +89,16 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
 Route::get('/templatesCv', [CvTemplateController::class, 'showTemplates'])->name('cv.templates');
 Route::get('/create-from-template/{templateName}', [CvTemplateController::class, 'createCvFromTemplate'])->name('cv.createFromTemplate');
 
+// route lưu cv
+Route::post('/cv/store', [CvController::class, 'store'])->name('cv.stores');
+
+// route sửa cv
+Route::post('/cv/updateCv', [CvController::class, 'updateCv'])->name('cv.updates');
+// route lấy dữ liệu hiển thị vào modal cv
+Route::get('/cv/{id}', [CVController::class, 'getCvById']);
+// route xóa cv 
+Route::delete('/cv/{id}', [CvController::class, 'destroy'])->name('cv.destroy');
+
 // route hiển thị trang index khi chạy lên đầu tiên 
 Route::get('/{index?}', [ProvisionServer::class, 'page'])->name('index');
 
@@ -114,8 +125,7 @@ Route::post('/changepassword', [ProfileController::class, 'changePassword'])->na
 //route cv
 Route::middleware(['auth'])->group(function () {
     Route::post('/upload-cv', [UploadCVController::class, 'store'])->name('cv.store');
-    //Route::get('/account', [AccountController::class, 'showAccount'])->name('account');
+    Route::get('/account', [AccountController::class, 'showAccount'])->name('account');
     Route::post('/cv/update', [UploadCVController::class, 'update'])->name('cv.update');
     Route::delete('/cv/destroy', [UploadCVController::class, 'destroy'])->name('cv.destroy');
 });
-

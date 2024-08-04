@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Cv;
+use App\Models\CvTemplate;
 
 class CvTemplateController extends Controller
 {
@@ -20,6 +22,13 @@ class CvTemplateController extends Controller
     {
         $template = json_decode(file_get_contents(resource_path("cv_templates/{$templateName}.json")), true);
 
-        return view('createCv', ['template' => $template]);
+        switch ($templateName) {
+            case 'template1':
+                return view('templateCv1', ['template' => $template]);
+            case 'template2':
+                return view('templateCv2', ['template' => $template]);
+            default:
+                abort(404);
+        }
     }
 }

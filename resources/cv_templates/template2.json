@@ -1,80 +1,80 @@
 {
-    "template_name": "Mẫu CV Hiện Đại",
-    "sections": [
-      {
-        "title": "Thông Tin Cá Nhân",
-        "fields": [
-          { "label": "Họ và tên", "key": "full_name" },
-          { "label": "Email", "key": "email" },
-          { "label": "Số điện thoại", "key": "phone_number" }
-        ]
-      },
-      {
-        "title": "Thông Tin Liên Hệ",
-        "fields": [
-          { "label": "Địa chỉ", "key": "address" }
-        ]
-      },
-      {
-        "title": "Mục tiêu nghề nghiệp",
-        "fields": [
-          { "label": "Mục tiêu nghề nghiệp", "key": "career_goals" }
-        ]
-      },
-      {
-        "title": "Kinh nghiệm",
-        "fields": [
-          { "label": "Kinh nghiệm làm việc", "key": "work_experience" }
-        ]
-      },
-      {
-        "title": "Học vấn",
-        "fields": [
-          { "label": "Trình độ học vấn", "key": "education" }
-        ]
-      },
-      {
-        "title": "Dự án Đã Thực Hiện",
-        "fields": [
-          { "label": "Dự án", "key": "projects" }
-        ]
-      },
-      {
-        "title": "Kỹ Năng",
-        "fields": [
-          { "label": "Kỹ năng", "key": "skills" }
-        ]
-      },
-      {
-        "title": "Sở Thích",
-        "fields": [
-          { "label": "Sở thích", "key": "interests" }
-        ]
-      },
-      {
-        "title": "Hoạt Động",
-        "fields": [
-          { "label": "Hoạt động", "key": "activities" }
-        ]
-      },
-      {
-        "title": "Người Giới Thiệu",
-        "fields": [
-          { "label": "Người giới thiệu", "key": "referrals" }
-        ]
-      },
-      {
-        "title": "Danh Hiệu và Giải Thưởng",
-        "fields": [
-          { "label": "Danh hiệu và giải thưởng", "key": "awards" }
-        ]
-      },
-      {
-        "title": "Chứng Chỉ",
-        "fields": [
-          { "label": "Chứng chỉ", "key": "certifications" }
-        ]
-      }
-    ]
-  }
-  
+  "template_name": "Mẫu CV Hiện Đại",
+  "image_cv": "public/images/image_cv/modern_cv.jpg",
+  "sections": [
+    {
+      "title": "Thông Tin Cá Nhân",
+      "fields": [
+        { "label": "Họ và tên", "key": "full_name" },
+        { "label": "Email", "key": "email" },
+        { "label": "Số điện thoại", "key": "phone_number" }
+      ]
+    },
+    {
+      "title": "Thông Tin Liên Hệ",
+      "fields": [
+        { "label": "Địa chỉ", "key": "address" }
+      ]
+    },
+    {
+      "title": "Mục tiêu nghề nghiệp",
+      "fields": [
+        { "label": "Mục tiêu nghề nghiệp", "key": "career_goals" }
+      ]
+    },
+    {
+      "title": "Kinh nghiệm",
+      "fields": [
+        { "label": "Kinh nghiệm làm việc", "key": "work_experience" }
+      ]
+    },
+    {
+      "title": "Học vấn",
+      "fields": [
+        { "label": "Trình độ học vấn", "key": "education" }
+      ]
+    },
+    {
+      "title": "Dự án Đã Thực Hiện",
+      "fields": [
+        { "label": "Dự án", "key": "projects" }
+      ]
+    },
+    {
+      "title": "Kỹ Năng",
+      "fields": [
+        { "label": "Kỹ năng", "key": "skills" }
+      ]
+    },
+    {
+      "title": "Sở Thích",
+      "fields": [
+        { "label": "Sở thích", "key": "interests" }
+      ]
+    },
+    {
+      "title": "Hoạt Động",
+      "fields": [
+        { "label": "Hoạt động", "key": "activities" }
+      ]
+    },
+    {
+      "title": "Người Giới Thiệu",
+      "fields": [
+        { "label": "Người giới thiệu", "key": "referrals" }
+      ]
+    },
+    {
+      "title": "Danh Hiệu và Giải Thưởng",
+      "fields": [
+        { "label": "Danh hiệu và giải thưởng", "key": "awards" }
+      ]
+    },
+    {
+      "title": "Chứng Chỉ",
+      "fields": [
+        { "label": "Chứng chỉ", "key": "certifications" }
+      ]
+    }
+  ]
+}
