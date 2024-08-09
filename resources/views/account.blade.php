@@ -56,7 +56,7 @@
                                                     data-cv-id="{{ $cvs->id }}"><i
                                                         class="fa-solid fa-pencil px-1"></i></a>
                                                 <a href="#"
-                                                    class="text-light text-decoration-none btn-delete bg-danger p-1 rounded"
+                                                    class="text-light text-decoration-none btn-deletecv bg-danger p-1 rounded"
                                                     data-cv-id="{{ $cvs->id }}"><i
                                                         class="fa-solid fa-trash px-1"></i></a>
                                             </div>
@@ -89,7 +89,7 @@
                                                 data-bs-toggle="modal" data-bs-target="#editCVModal"><i
                                                     class="fa-solid fa-pencil px-1"></i></a>
                                             <a href="#"
-                                                class="text-light text-decoration-none btn-delete bg-danger p-1 rounded"
+                                                class="text-light text-decoration-none bg-danger p-1 rounded"
                                                 data-bs-toggle="modal" data-bs-target="#deleteCVModal"><i
                                                     class="fa-solid fa-trash px-1"></i></a>
                                         </div>
@@ -496,15 +496,14 @@
         }
     </script>
 
-    {{-- js xóa cv --}}
+    {{-- js xóa cv đã tạo trên vieclamso1 --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.btn-delete').forEach(function(button) {
+            document.querySelectorAll('.btn-deletecv').forEach(function(button) {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
-
                     const cvId = this.getAttribute('data-cv-id');
-                    const url = `{{ url('/cv') }}/${cvId}`;
+                    const url = `{{ url('/cv/destroy') }}/${cvId}`;
 
                     Swal.fire({
                         title: 'Bạn chắc chắn muốn xóa CV này?',
@@ -542,50 +541,6 @@
                 });
             });
         });
-    </script>
-    {{-- js hiển thị thông báo xóa cv --}}
-    <script>
-        function confirmDelete(cvId) {
-            Swal.fire({
-                title: 'Bạn có chắc chắn muốn xóa CV này?',
-                text: "Dữ liệu sẽ bị xóa vĩnh viễn!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch(`/cv/delete/${cvId}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                    'content'),
-                            },
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.status === 'success') {
-                                Swal.fire(
-                                    'Đã xóa!',
-                                    'CV của bạn đã được xóa.',
-                                    'success'
-                                ).then(() => {
-                                    location.reload();
-                                });
-                            } else {
-                                Swal.fire(
-                                    'Có lỗi!',
-                                    'Đã xảy ra lỗi khi xóa CV.',
-                                    'error'
-                                );
-                            }
-                        });
-                }
-            });
-        }
     </script>
 
 
@@ -635,7 +590,7 @@
                         showSuccessAlert(response.message);
                         setTimeout(function() {
                             location.reload();
-                        }, 2000); // Wait for 2 seconds before reloading
+                        }, 2000); 
                     } else {
                         showErrorAlert(response.message);
                     }
@@ -652,7 +607,7 @@
             $('#deleteCVModal').modal('hide'); // Hide the modal manually
 
             $.ajax({
-                url: '{{ route('cv.destroy') }}',
+                url: '{{ route('cv.delete') }}',
                 type: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'

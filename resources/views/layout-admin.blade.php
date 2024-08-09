@@ -86,7 +86,7 @@
                     data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i> <span
                         class="text">Welcome Super Admin</span><b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{asset('profileAdmin')}}"><i class="icon-user"></i> My Profile</a></li>
+                    <li><a href="{{ asset('profileAdmin') }}"><i class="icon-user"></i> My Profile</a></li>
                     <li class="divider"></li>
                     <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
                     <li class="divider"></li>
@@ -138,6 +138,8 @@
                     <span>Jobs</span></a></li>
             <li> <a href="{{ url('/manageCategoriesjob') }}"><i class="icon icon-th-list"></i>
                     <span>Categories Jobs</span></a></li>
+            <li> <a href="{{ url('/manageAdmin') }}"><i class="icon icon-th-list"></i>
+                    <span>Manage Admin</span></a></li>
         </ul>
     </div>
 

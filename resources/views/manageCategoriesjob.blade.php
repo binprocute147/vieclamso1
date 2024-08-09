@@ -31,8 +31,11 @@
             <div class="row-fluid">
                 <div class="span12">
                     <div class="widget-box">
-                        <div class="widget-title"> <span class="icon"><a href="{{asset('addCategoriesjob')}}"> <i class="icon-plus"></i>
-                                </a></span>
+                        <div class="widget-title">
+                            @can('createAdmin', auth()->user())
+                                <span class="icon"><a href="{{ asset('addCategoriesjob') }}"> <i class="icon-plus"></i>
+                                    </a></span>
+                            @endcan
                             <h5>Add JobCategories</h5>
                         </div>
                         <div class="widget-content nopadding">
@@ -63,15 +66,20 @@
                                                 <td>{{ $row->name }}</td>
                                                 <td>{{ $row->created_at }}</td>
                                                 <td>
-                                                    <a href='{{ route('jobCategories.edit', $row->id) }}' class='btn btn-success btn-mini'>Edit</a>
-                                                    <a href="#" class='btn btn-danger btn-mini'
-                                                        onclick="event.preventDefault(); if(confirm('Bạn có chắc muốn xóa danh mục công việc này không ?')){document.getElementById('delete-form-{{ $row->id }}').submit();}">Delete</a>
-                                                    <form id="delete-form-{{ $row->id }}"
-                                                        action="{{ route('jobCategories.delete', $row->id) }}" method="POST"
-                                                        style="display: none;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
+                                                    @can('updateAdmin', auth()->user())
+                                                        <a href='{{ route('jobCategories.edit', $row->id) }}'
+                                                            class='btn btn-success btn-mini'>Edit</a>
+                                                    @endcan
+                                                    @can('deleteAdmin', auth()->user())
+                                                        <a href="#" class='btn btn-danger btn-mini'
+                                                            onclick="event.preventDefault(); if(confirm('Bạn có chắc muốn xóa danh mục công việc này không ?')){document.getElementById('delete-form-{{ $row->id }}').submit();}">Delete</a>
+                                                        <form id="delete-form-{{ $row->id }}"
+                                                            action="{{ route('jobCategories.delete', $row->id) }}"
+                                                            method="POST" style="display: none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                    @endcan
                                                 </td>
                                             </tr>
                                         @endforeach

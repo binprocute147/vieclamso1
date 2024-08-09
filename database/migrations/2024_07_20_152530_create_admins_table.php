@@ -20,10 +20,10 @@ class CreateAdminsTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('role');
-            $table->string('phone',10)->nullable();
+            $table->string('phone', 10)->nullable();
+            $table->string('permissions')->default('view_only'); // Thêm trường permissions
             $table->timestamps();
         });
-
     }
 
     /**

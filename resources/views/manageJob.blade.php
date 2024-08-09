@@ -31,9 +31,11 @@
             <div class="row-fluid">
                 <div class="span12">
                     <div class="widget-box">
-                        <div class="widget-title"> <span class="icon"><a href="{{ asset('addJob') }}"> <i
-                                        class="icon-plus"></i>
-                                </a></span>
+                        <div class="widget-title">
+                            @can('createAdmin', auth()->user())
+                                <span class="icon"><a href="{{ asset('addJob') }}"> <i class="icon-plus"></i>
+                                    </a></span>
+                            @endcan
                             <h5>Add Job</h5>
                         </div>
                         <div class="widget-content nopadding">
@@ -93,8 +95,11 @@
                                                 <td>{{ $job->job_type }}</td>
                                                 <td>{{ $job->created_at }}</td>
                                                 <td>
-                                                    <a href='{{ route('job.edit', $job->id) }}'
-                                                        class='btn btn-success btn-mini'>Edit</a>
+                                                    @can('updateAdmin', auth()->user())
+                                                        <a href='{{ route('job.edit', $job->id) }}'
+                                                            class='btn btn-success btn-mini'>Edit</a>
+                                                    @endcan
+                                                    @can('deleteAdmin', auth()->user())
                                                     <a href="#" class='btn btn-danger btn-mini'
                                                         onclick="event.preventDefault(); if(confirm('Bạn có chắc muốn xóa công việc này không ?')){document.getElementById('delete-form-{{ $job->id }}').submit();}">Delete</a>
                                                     <form id="delete-form-{{ $job->id }}"
@@ -103,6 +108,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
+                                                    @endcan
                                                 </td>
                                             </tr>
                                         @endforeach

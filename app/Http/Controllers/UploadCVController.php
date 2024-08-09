@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class UploadCVController extends Controller
 {
@@ -91,30 +92,37 @@ class UploadCVController extends Controller
             }
         }
 
-        return response()->json(['success' => false, 'message' => 'Đã xảy ra lỗi khi cập nhật CV.'], 500);
+        return response()->json(['error' => false, 'message' => 'Đã xảy ra lỗi khi cập nhật CV.'], 500);
     }
 
 
     // delete cv
     public function destroy(Request $request)
     {
-        if (Auth::check()) {
-            $userId = Auth::id();
-            $user = User::find($userId);
+        try {
+            if (Auth::check()) {
+                $userId = Auth::id();
+                $user = User::find($userId);
 
-            if ($user->cv) {
-                $filePath = public_path('images/cv/') . $user->cv;
-                if (File::exists($filePath)) {
-                    File::delete($filePath);
+                if ($user->cv) {
+                    $filePath = public_path('images/cv/') . $user->cv;
+                    if (File::exists($filePath)) {
+                        File::delete($filePath);
+                    }
+
+                    $user->cv = null;
+                    $user->save();
+
+                    return response()->json(['success' => true, 'message' => 'Xóa CV thành công.']);
+                } else {
+                    return response()->json(['error' => false, 'message' => 'CV không tồn tại.'], 404);
                 }
-
-                $user->cv = null;
-                $user->save();
-
-                return response()->json(['success' => true, 'message' => 'Xóa CV thành công.']);
             }
-        }
 
-        return response()->json(['success' => false, 'message' => 'Đã xảy ra lỗi khi xóa CV.'], 500);
+            return response()->json(['error' => false, 'message' => 'Người dùng chưa đăng nhập.'], 401);
+        } catch (\Exception $e) {
+            Log::error('Xóa CV thất bại: ' . $e->getMessage()); 
+            return response()->json(['error' => true, 'message' => 'Đã xảy ra lỗi khi xóa CV.'], 500);
+        }
     }
 }

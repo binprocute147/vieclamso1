@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -20,6 +21,7 @@ class User extends Authenticatable
         'profile_picture',
         'cv',
         'is_online',
+        'role',
     ];
 
     protected $hidden = [

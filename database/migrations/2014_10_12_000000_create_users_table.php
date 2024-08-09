@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone',10)->nullable();
             $table->boolean('is_online')->default(false);
+            $table->string('role')->default('user');
             $table->rememberToken();
             $table->timestamps();
         });

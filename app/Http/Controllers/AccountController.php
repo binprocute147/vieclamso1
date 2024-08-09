@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Job;
-use App\Models\CV;
+use App\Models\Cv;
+
 
 class AccountController extends Controller
 {
@@ -16,7 +17,7 @@ class AccountController extends Controller
         
         // Lấy CV của người dùng hiện tại
         $user = Auth::user();
-        $cv = CV::where('user_id', $user->id)->get();
+        $cv = Cv::where('user_id', $user->id)->get();
         
         return view('account', compact('jobs', 'cv'));
     }

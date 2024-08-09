@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Gate;
 
 class ManageUserController extends Controller
 {
     public function manageUsers()
     {
+        $this->authorize('viewAdmins', Admin::class);
         $users = User::orderBy('created_at', 'desc')->paginate(5);
         // dd($users); 
         return view('manageUser', compact('users'));
@@ -36,6 +39,10 @@ class ManageUserController extends Controller
     // Xử lý thêm người dùng
     public function store(Request $request)
     {
+        if (Gate::denies('createAdmin', auth()->user())) {
+            abort(403, 'Unauthorized');
+        }
+
         // Định nghĩa quy tắc xác thực
         $rules = [
             'fullname' => 'required|string|max:255',
@@ -139,12 +146,20 @@ class ManageUserController extends Controller
     // edit user
     public function edit($id)
     {
+        if (Gate::denies('updateAdmin', auth()->user())) {
+            abort(403, 'Unauthorized');
+        }
+
         $user = User::findOrFail($id);
         return view('editUser', compact('user'));
     }
 
     public function update(Request $request, $id)
     {
+        if (Gate::denies('updateAdmin', auth()->user())) {
+            abort(403, 'Unauthorized');
+        }
+
         // Định nghĩa quy tắc xác thực
         $rules = [
             'fullname' => 'required|string|max:255',
@@ -237,6 +252,10 @@ class ManageUserController extends Controller
     // xóa user
     public function deleteUser($id)
     {
+        if (Gate::denies('deleteAdmin', auth()->user())) {
+            abort(403, 'Unauthorized');
+        }
+        
         try {
             $user = User::findOrFail($id);
 

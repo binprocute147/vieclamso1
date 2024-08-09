@@ -8,12 +8,15 @@ use App\Models\JobCategories;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Gate;
 
 class ManageJobController extends Controller
 {
     public function manageJobs()
     {
+        $this->authorize('viewAdmins', Admin::class);
         $jobs = Job::orderBy('created_at', 'desc')->paginate(5);
         return view('manageJob', compact('jobs'));
     }
@@ -42,6 +45,10 @@ class ManageJobController extends Controller
 
     public function storeJob(Request $request)
     {
+        if (Gate::denies('createAdmin', auth()->user())) {
+            abort(403, 'Unauthorized');
+        }
+
         $rules = [
             'name_job' => 'required|string|max:255',
             'description' => 'required|string',
@@ -113,6 +120,10 @@ class ManageJobController extends Controller
     // Edit job
     public function edit($id)
     {
+        if (Gate::denies('updateAdmin', auth()->user())) {
+            abort(403, 'Unauthorized');
+        }
+
         $job = Job::findOrFail($id);
         $categoriesJob = JobCategories::all();
         return view('editJob', compact('job', 'categoriesJob'));
@@ -121,6 +132,10 @@ class ManageJobController extends Controller
     // Update job
     public function update(Request $request, $id)
     {
+        if (Gate::denies('updateAdmin', auth()->user())) {
+            abort(403, 'Unauthorized');
+        }
+
         $rules = [
             'name_job' => 'required|string|max:255',
             'description' => 'required|string',
@@ -208,6 +223,10 @@ class ManageJobController extends Controller
     // xóa job
     public function deleteJob($id)
     {
+        if (Gate::denies('deleteAdmin', auth()->user())) {
+            abort(403, 'Unauthorized');
+        }
+        
         try {
             $job = Job::findOrFail($id);
 

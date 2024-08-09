@@ -7,12 +7,14 @@ use App\Models\JobCategories;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-
+use App\Models\Admin;
+use Illuminate\Support\Facades\Gate;
 
 class JobCategoriesbController extends Controller
 {
     public function manageJobCategories()
     {
+        $this->authorize('viewAdmins', Admin::class);
         $jobCategories = JobCategories::orderBy('created_at', 'desc')->paginate(5);
         // dd($jobs);
         return view('manageCategoriesjob', compact('jobCategories'));
@@ -36,6 +38,10 @@ class JobCategoriesbController extends Controller
     // add JobCategories
     public function store(Request $request)
     {
+        if (Gate::denies('createAdmin', auth()->user())) {
+            abort(403, 'Unauthorized');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'jobcategories_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
@@ -64,7 +70,10 @@ class JobCategoriesbController extends Controller
     // xóa danh mục công việc
     public function deleteJobCategories($id)
     {
-
+        if (Gate::denies('deleteAdmin', auth()->user())) {
+            abort(403, 'Unauthorized');
+        }
+        
         try {
             $jobCategories = JobCategories::findOrFail($id);
             // Kiểm tra xem jobCategories có chứa job nào không
@@ -93,12 +102,20 @@ class JobCategoriesbController extends Controller
     // edit JobCategories
     public function edit($id)
     {
+        if (Gate::denies('updateAdmin', auth()->user())) {
+            abort(403, 'Unauthorized');
+        }
+
         $jobCategory = JobCategories::findOrFail($id);
         return view('editCategoriesjob', compact('jobCategory'));
     }
 
     public function update(Request $request, $id)
     {
+        if (Gate::denies('updateAdmin', auth()->user())) {
+            abort(403, 'Unauthorized');
+        }
+
         // Định nghĩa quy tắc xác thực
         $rules = [
             'name' => 'required|string|max:255',

@@ -18,6 +18,7 @@ use App\Http\Controllers\ProfileAdminController;
 use App\Http\Controllers\JobDetailsController;
 use App\Http\Controllers\CvTemplateController;
 use App\Http\Controllers\CvController;
+use App\Http\Controllers\AdminController;
 
 // route logout 
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -83,6 +84,15 @@ Route::middleware(['auth:admin', 'admin'])->group(function () {
     Route::get('/profileAdmin', [ProfileAdminController::class, 'profile'])->name('admin.profile');
     Route::post('/profileAdmin/update', [ProfileAdminController::class, 'updateProfile'])->name('admin.updateProfile');
     Route::post('/profileAdmin/update-password', [ProfileAdminController::class, 'updatePassword'])->name('admin.updatePassword');
+
+    // route crub, tìm kiếm , phân quyền manageAdmin
+    Route::get('/manageAdmin', [AdminController::class, 'manageAdmins'])->name('admin.manageAdmins');
+    Route::get('/search-admins', [AdminController::class, 'searchAdmins'])->name('admins.search');
+    Route::post('/add-admin', [AdminController::class, 'store'])->name('admin.store');
+    Route::get('editAdmin/{id}', [AdminController::class, 'edit'])->name('admin.edit');
+    Route::put('updateAdmin/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::delete('/delete-admin/{id}', [AdminController::class, 'delete'])->name('admin.delete');
+    Route::post('updateAdminPermissions/{admin}', [AdminController::class, 'updateAdminPermissions'])->name('admin.updatePermissions');
 });
 
 // route cv 
@@ -97,7 +107,7 @@ Route::post('/cv/updateCv', [CvController::class, 'updateCv'])->name('cv.updates
 // route lấy dữ liệu hiển thị vào modal cv
 Route::get('/cv/{id}', [CVController::class, 'getCvById']);
 // route xóa cv 
-Route::delete('/cv/{id}', [CvController::class, 'destroy'])->name('cv.destroy');
+Route::delete('/cv/destroy/{id}', [CvController::class, 'destroy'])->name('cv.destroy');
 
 // route hiển thị trang index khi chạy lên đầu tiên 
 Route::get('/{index?}', [ProvisionServer::class, 'page'])->name('index');
@@ -127,5 +137,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/upload-cv', [UploadCVController::class, 'store'])->name('cv.store');
     Route::get('/account', [AccountController::class, 'showAccount'])->name('account');
     Route::post('/cv/update', [UploadCVController::class, 'update'])->name('cv.update');
-    Route::delete('/cv/destroy', [UploadCVController::class, 'destroy'])->name('cv.destroy');
+    Route::delete('/cv/destroy', [UploadCVController::class, 'destroy'])->name('cv.delete');
 });
